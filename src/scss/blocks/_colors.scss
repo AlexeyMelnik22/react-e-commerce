@@ -1,0 +1,67 @@
+@use "../../scss/helpers" as *;
+
+.colors {
+	display: flex;
+	&__list {
+		display: flex;
+		column-gap: rem(15);
+		row-gap: rem(15);
+		flex-wrap: wrap;
+	}
+	&__item {
+		position: relative;
+		@include flex-center;
+		transition: var(--transition-duration);
+		&:hover {
+			transform: scale(1.05);
+		}
+		.color {
+			cursor: pointer;
+			&.is-active {
+				&:after {
+					position: absolute;
+					content: "";
+					background-image: url("../../assets/images/icons/check-white.svg");
+					background-repeat: no-repeat;
+					background-position: center;
+					background-size: contain;
+					@include square(rem(16));
+				}
+			}
+			&.inactive {
+				cursor: default;
+				pointer-events: none;
+				opacity: 0.3;
+				&:after {
+					position: absolute;
+					content: "";
+					width: 2px;
+					background: var(--color-dark);
+					height: calc(100% - 2px);
+					transform: rotate(45deg);
+				}
+			}
+			@include square(rem(37));
+
+			border: 1px solid rgba(0, 0, 0, 0.3);
+			border-radius: rem(50);
+			flex-shrink: 0;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			img {
+				object-fit: contain;
+			}
+			//if need css colors , not images
+			//&.color-brown {
+			//	background-color: var(--prod-color-brown);
+			//}
+			//&.color-green-dark {
+			//	background-color: var(--prod-color-green-dark);
+			//}
+			//&.color-blue-dark {
+			//	background-color: var(--prod-color-blue-dark);
+			//}
+		}
+	}
+}

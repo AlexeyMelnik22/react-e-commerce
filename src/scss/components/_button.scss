@@ -1,0 +1,154 @@
+@use "../../scss/helpers" as *;
+
+.btn {
+	position: relative;
+	width: rem(210);
+	height: fluid(52 , 46);
+	border-radius: rem(50);
+	font-size: 1em;
+	font-weight: 500;
+	padding: 0 rem(20);
+	text-align: center;
+	cursor: pointer;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	line-height: normal;
+	white-space: nowrap;
+	text-transform: inherit;
+	box-shadow: none;
+	transition: var(--transition-duration);
+	z-index: 1;
+	border: 1px solid transparent;
+
+	&__max {
+		width: 100%;
+	}
+	&__max-mobile {
+		@include mobile-s {
+			width: 100%;
+		}
+	}
+	&__auto {
+		width: auto;
+	}
+	&__primary {
+		position: relative;
+		overflow: hidden;
+		color: var(--btn-primary-color);
+		&:after {
+			content: '';
+			position: absolute;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			background-color: var(--btn-primary-bg);
+			z-index: -1;
+			transition: var(--transition-duration);
+		}
+		&:before {
+			content: '';
+			position: absolute;
+			left: 0;
+			top: 0;
+			bottom: 0;
+			right: -100%;
+			background-color: var(--btn-primary-bg-active);
+			z-index: -1;
+			transition: var(--transition-duration);
+		}
+		&:hover, &:focus {
+			&:before {
+				color: var(--btn-primary-color-active);
+				background-color: var(--btn-primary-bg-active);
+				right: 0;
+			}
+			&:after {
+				right: 100%;
+			}
+		}
+	}
+	&__secondary {
+		color: var(--btn-secondary-color);
+		background-color: var(--btn-secondary-bg);
+		border: 1px solid var(--btn-secondary-border);
+		&:hover, &:focus {
+			animation: secondary-btn var(--transition-duration) forwards;
+			color: var(--btn-secondary-color-active);
+			border: fluid(26 , 23) solid var(--btn-secondary-border-active);
+		}
+		@keyframes secondary-btn {
+			0% {
+				color: var(--color-light);
+				background-color: var(--btn-secondary-bg);
+			}
+			50% {
+				color: var(--color-light);
+				background-color: var(--btn-secondary-bg);
+			}
+			100% {
+				color: var(--color-light);
+				background-color: var(--color-dark);
+			}
+		}
+	}
+	&__light {
+		color: var(--btn-light-color);
+		background-color: var(--btn-light-bg);
+		height: fluid(46, 42);
+		&:hover, &:focus {
+			background-color: var(--color-gray);
+		}
+	}
+	&__grey {
+		color: var(--color-dark);
+		background-color: var(--color-gray-2);
+		transition: var(--transition-duration);
+		opacity: 1;
+		&:hover {
+			opacity: .7;
+		}
+	}
+	&__icon {
+		width: fluid(48, 40);
+		height: fluid(48, 40);
+		padding: 0;
+		transition: var(--transition-duration);
+		.icon {
+			transition: var(--transition-duration);
+		}
+		&:hover {
+			transform: rotate(180deg);
+		}
+	}
+	&__select {
+		&:after {
+			margin-left: fluid(21, 16);
+			display: flex;
+			flex-shrink: 0;
+			position: relative;
+			content: "";
+			@include square(rem(16));
+			background: url("../../assets/images/icons/chevron-down.svg") center/ contain no-repeat;
+		}
+	}
+	&__filter {
+		z-index: 999;
+		position: fixed;
+		bottom: rem(40);
+		right: rem(20);
+		border: rem(1) solid var(--color-dark);
+		background-color: var(--color-light);
+		@include tablet-above {
+			display: none;
+		}
+	}
+}
+
+.btn-group {
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: rem(10);
+}

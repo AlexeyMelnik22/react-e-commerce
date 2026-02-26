@@ -1,0 +1,77 @@
+@use "../../scss/helpers" as *;
+
+.browse-by {
+	&__inner {
+		background-color: var(--color-gray-2);
+		padding: fluid(71, 40) fluid(64, 24);
+		border-radius: rem(40);
+	}
+	&__header {
+		text-align: center;
+	}
+	&__headline {
+		@include mobile-s {
+			text-transform: uppercase;
+			font-weight: 900;
+		}
+	}
+	&__body {
+		margin-top: fluid(64, 28);
+	}
+	&__cards {
+		&-list {
+			display: grid;
+			grid-template-rows: repeat(2, 1fr);
+			grid-template-columns: repeat(8, 1fr);
+			gap: fluid(20, 16);
+			width: 100%;
+			height: 100%;
+			@include mobile {
+				grid-template-columns: 1fr;
+				grid-template-rows: repeat(4, 1fr);
+			}
+		}
+		&-item {
+			display: flex;
+			background: var(--color-light) top center/cover no-repeat;
+			//min-width: fluid(407, 310);
+			height: fluid(289, 190);
+			width: 100%;
+			border-radius: rem(20);
+			overflow: hidden;
+			padding: fluid(25 , 16) fluid(36 , 24);
+			&:nth-child(1) {
+				grid-area: 1 / 1 / 2 / 4;
+				@include mobile {
+					grid-area: unset;
+				}
+				background-image: url("../../assets/images/browse-card/card-1.jpg");
+			}
+			&:nth-child(2) {
+				grid-area: 1/4/2/9;
+				@include mobile {
+					grid-area: unset;
+				}
+				background-image: url("../../assets/images/browse-card/card-2.jpg");
+			}
+			&:nth-child(3) {
+				grid-area: 2 / 1 / 2 / 6;
+				@include mobile {
+					grid-area: unset;
+				}
+				background-image: url("../../assets/images/browse-card/card-3.jpg");
+			}
+			&:nth-child(4) {
+				grid-area: 2/6/2/9;
+				@include mobile {
+					grid-area: unset;
+				}
+				background-image: url("../../assets/images/browse-card/card-4.jpg");
+			}
+			&__title {
+				text-overflow: ellipsis;
+				overflow: hidden;
+			}
+		}
+	}
+}

@@ -1,0 +1,35 @@
+@use "../../scss/helpers" as *;
+
+.section {
+	padding-block: fluid(70, 50) fluid(64, 50);
+	//if need bottom border
+	&-bordered {
+		position: relative;
+		&::after {
+			position: absolute;
+			content: "";
+			height: 1px;
+			bottom: 0;
+			left: var(--container-padding-x);
+			right: var(--container-padding-x);
+			background-color: var(--color-border);
+			margin-inline: auto;
+			@include laptop-above {
+				width: var(--container-width);
+			}
+		}
+	}
+	&__header {
+		margin-bottom: fluid(55, 35);
+		&-headline {
+			text-align: center;
+		}
+	}
+	&__footer {
+		margin-top: fluid(36, 34);
+		&-inner {
+			text-align: center;
+		}
+	}
+
+}

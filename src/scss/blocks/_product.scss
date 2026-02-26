@@ -1,0 +1,56 @@
+@use "../../scss/helpers" as *;
+
+.product {
+	&__inner {
+		display: grid;
+		column-gap: rem(40);
+		row-gap: rem(20);
+		grid-template-columns: 1fr 1fr;
+		@include mobile {
+			grid-template-columns: 1fr;
+			grid-template-rows: auto;
+		}
+	}
+	&__title {
+		margin-bottom: rem(10);
+	}
+	&__rating {
+		margin-bottom: fluid(20, 12);
+		.block-rating {
+			&__star {
+				@include square(var(--review-size-lg));
+			}
+			&__value {
+				@include fluid-text(16, 14);
+			}
+		}
+	}
+	&__desc {
+		padding-block: rem(16) rem(24);
+		border-bottom: 1px solid var(--color-border);
+	}
+	&__price {
+		.price {
+			@include fluid-text(32, 24);
+		}
+		.price-old {
+			@include fluid-text(32, 24);
+		}
+		.discount {
+			@include fluid-text(16, 14);
+		}
+	}
+	&__row {
+		padding-block: rem(20);
+		border-bottom: 1px solid var(--color-border);
+		&-title {
+			margin-bottom: rem(16);
+		}
+	}
+	&__cart {
+		display: flex;
+		align-items: center;
+		padding-block: rem(24);
+		column-gap: rem(20);
+	}
+}

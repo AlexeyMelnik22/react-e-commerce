@@ -1,0 +1,29 @@
+@use "../../scss/helpers" as *;
+
+[class*="__price"] {
+	margin-top: fluid(8, 5);
+	display: flex;
+	align-items: center;
+	column-gap: fluid(10 , 5);
+	.price {
+		@include fluid-text(24, 20);
+		font-weight: 500;
+		color: var(--color-dark);
+	}
+	.price-old {
+		@include fluid-text(24, 20);
+		color: var(--color-gray-40);
+		text-decoration: line-through;
+	}
+	.discount {
+		background-color: var(--color-red-light);
+		color: var(--color-red);
+		font-size: em(12);
+		padding: fluid(6, 3) fluid(13, 8);
+		border-radius: rem(50);
+		line-height: 1;
+		&:empty {
+			display: none;
+		}
+	}
+}

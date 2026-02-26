@@ -1,0 +1,46 @@
+@use "../../scss/helpers" as *;
+
+.hero {
+	background: var(--color-gray-1) url("../../assets/images/hero/hero.jpg") no-repeat bottom/contain;
+	padding-top: fluid(103, 40);
+	padding-bottom: fluid(116, 2);
+	position: relative;
+	&:before {
+		position: absolute;
+		content: "";
+		left: 0;
+		right: 0;
+		bottom: 0;
+		top: 0;
+		z-index: 0;
+		@include mobile {
+			backdrop-filter: contrast(.5);
+		}
+		@include mobile-s {
+			backdrop-filter: none;
+		}
+	}
+	@include mobile-s {
+		padding-bottom: rem(455);
+		background: var(--color-gray-1) url("../../assets/images/hero/hero-m.png") no-repeat bottom/contain;
+	}
+	&__main {
+		position: relative;
+	}
+	&__body {
+		width: 100%;
+		max-width: rem(560);
+	}
+	&__title {
+		margin-bottom: rem(32);
+	}
+	&__desc {
+		margin-bottom: rem(32);
+	}
+	&__button {
+
+	}
+	&__metrics {
+		margin-top: rem(48);
+	}
+}

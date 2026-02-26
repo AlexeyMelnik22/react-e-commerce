@@ -1,0 +1,36 @@
+@use "../../scss/helpers" as *;
+
+.block-rating {
+	--product-size: #{rem(18)};
+	--review-size: #{rem(23)};
+	--review-size-lg: #{rem(25)};
+
+	@include mobile {
+		--product-size: #{rem(16)};
+		--review-size: #{rem(19)};
+		--review-size-lg: #{rem(18)}
+	}
+	display: flex;
+	column-gap: fluid(13, 11);
+	align-items: center;
+	&__view {
+		display: flex;
+		column-gap: fluid(5,4);
+	}
+	&__star {
+
+		@include square(var(--product-size));
+
+		background: url("../../assets/images/icons/star-gray.svg") center/contain no-repeat;
+		&.is-active {
+			background: url("../../assets/images/icons/star-yellow.svg") center/contain no-repeat;
+		}
+	}
+	&__value {
+		@include fluid-text(14, 12);
+		color: var(--color-dark);
+		span {
+			color: var(--color-gray-60);
+		}
+	}
+}

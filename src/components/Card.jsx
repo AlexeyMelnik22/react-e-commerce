@@ -1,0 +1,68 @@
+import React from 'react';
+import svgSprite from "../assets/sprite.svg";
+import Rating from "./Rating.jsx";
+import {Link} from "react-router-dom";
+
+const Card = (props) => {
+    const {
+        data,
+        imgPath
+    }= props
+
+    const handleClick = () => {
+        window.reload()
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth', // або 'auto' для миттєвого скролу
+        });
+    };
+
+    return (
+        <div className="card card-product">
+            <div className="card__preview">
+                <Link to={`/catalog/${data.title.toLowerCase().replace(/\s+/g, '-')}?id=${data.id}&size=${data.size}&color=${data.color}&price=${data.price}&oldPrice=${data.oldPrice}&discount=${data.discount}&rate=${data.rating}`} className="card__preview--link"
+                      title={data.title}
+                      aria-label="Open product page" onClick={handleClick}>
+                    <img
+                        src={`${imgPath}/products/${data.title.toLowerCase().replace(/\s+/g, '-')}.png`}
+                        alt=""
+                        className="card__image"
+                        width={295}
+                        height={298}
+                    />
+                </Link>
+            </div>
+            <div className="card__info">
+                <h6 className="card__name h6">
+                    <Link to={`/catalog/${data.title.toLowerCase().replace(/\s+/g, '-')}?id=${data.id}&size=${data.size}&color=${data.color}&price=${data.price}&oldPrice=${data.oldPrice}&discount=${data.discount}&rate=${data.rating}`}
+                          className="card__name-link link link-dark"
+                          title={data.title}
+                          aria-label="Open product page"
+                          onClick={handleClick}>
+                        {data.title}
+                    </Link>
+                </h6>
+                <div className="card__rating">
+                    <Rating value={data.rating}/>
+                </div>
+                <div className="card__price">
+                    <div className="price">${data.price}</div>
+                    {data.oldPrice ? (
+                        <div className="price-old">{data.oldPrice}</div>
+                    ) : (
+                        <div></div>
+                    )}
+                    {data.discount ? (
+                        <div className="discount">{data.discount}</div>
+                    ) : (
+                        <div></div>
+                    )}
+                </div>
+            </div>
+        </div>
+
+    );
+};
+
+export default Card;

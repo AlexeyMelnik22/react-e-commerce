@@ -1,0 +1,53 @@
+@use "../../scss/helpers" as *;
+
+.pagination {
+	padding-top: rem(20);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;
+	border-top: rem(1) solid var(--color-border);
+	margin-top: rem(32);
+	&__inner {
+		display: flex;
+		column-gap: fluid(8, 2);
+		justify-content: space-between;
+		width: 100%;
+	}
+	&__list {
+		display: flex;
+		column-gap: rem(1);
+	}
+	&__btn {
+		padding: rem(8) rem(14);
+		border: rem(1) solid var(--color-gray-10);
+		border-radius: rem(8);
+		display: flex;
+		column-gap: fluid(8, 4);
+		transition: var(--transition-duration);
+		.icon {
+			@include square(#{fluid(20, 16)})
+		}
+		&:hover {
+			border-color: var(--color-dark);
+			color: var(--color-dark);
+		}
+	}
+	&__link {
+		width: fluid(40, 36);
+		height: fluid(40, 36);
+		@include flex-center;
+		border-radius: rem(8);
+		background-color: var(--color-light);
+		transition: var(--transition-duration);
+		color: var(--color-gray-50);
+	}
+	&__item {
+		&.active, &:hover {
+			.pagination__link {
+				background-color: var(--color-gray-10);
+				color: var(--color-dark);
+			}
+		}
+	}
+}

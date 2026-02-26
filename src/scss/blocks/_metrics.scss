@@ -1,0 +1,30 @@
+@use "../../scss/helpers" as *;
+
+
+.metrics {
+	&__list {
+		display: flex;
+		align-items: center;
+		column-gap: fluid(32, 28);
+		row-gap: rem(14);
+		@include mobile-s {
+			justify-content: center;
+			flex-wrap: wrap;
+		}
+	}
+	&__item {
+		display: flex;
+		flex-direction: column-reverse;
+	}
+	&__key {
+		@include fluid-text(16, 12)
+	}
+	&__value {
+		margin-bottom: rem(5);
+	}
+	&__divider {
+		height: fluid(74, 52);
+		width: rem(1);
+		background-color: var(--color-gray-10);
+	}
+}

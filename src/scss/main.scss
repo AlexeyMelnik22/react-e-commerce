@@ -1,0 +1,62 @@
+/** Обнуление */
+@use "config/normalize";
+// Подключение шрифтов локально из папки "./src/fonts"
+@use "config/fonts";
+
+// Подключение переменных
+@use "config/root";
+
+// Библиотеки, раскомментировать для использования
+// @use 'libs/aos';
+ @use 'libs/swiper';
+
+// Подключение custom scrollbar для всего сайта
+@use "config/scrollbar";
+
+// Общие параметры, шаблоны(заготовки) и вспомогательные классы
+@use "config/base";
+
+// БЕМ блоки используемые во всём проекте
+@use "config/common";
+
+// // Подключение стилей отдельных блоков и секций
+@use "components/button";
+@use "components/popup";
+@use "components/checkbox";
+@use "components/tabs";
+@use "components/accordion";
+
+//icons
+@use "config/icon";
+
+//forms
+@use "config/form";
+
+
+//Blocks
+@use "blocks/colors";
+@use "blocks/burger-menu";
+@use "blocks/price";
+@use "blocks/size";
+@use "blocks/hero";
+@use "blocks/metrics";
+@use "blocks/brand-carousel";
+@use "blocks/section";
+@use "blocks/card";
+@use "blocks/rating-block";
+@use "blocks/browse-by";
+@use "blocks/reviews";
+@use "blocks/newsletter";
+@use "blocks/breadcrumbs";
+@use "blocks/thumbnail";
+@use "blocks/product";
+@use "blocks/quantity-selector";
+@use "blocks/filters";
+@use "blocks/catalog";
+@use "blocks/price-range";
+@use "blocks/pagination";
+@use "blocks/cart";
+
+
+@use "header";
+@use "footer";

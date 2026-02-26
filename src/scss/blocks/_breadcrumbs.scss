@@ -1,0 +1,38 @@
+@use "../../scss/helpers" as *;
+
+.breadcrumbs {
+	z-index: 99;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	padding-block: fluid(24, 22);
+	&__list {
+		display: flex;
+		align-items: center;
+		column-gap: fluid(12, 6);
+	}
+	&__item {
+
+	}
+	&__link {
+		position: relative;
+		display: flex;
+		align-items: center;
+		column-gap: rem(4);
+		@include link-color(var(--color-gray-60));
+		transition: var(--transition-duration);
+		&:hover {
+			@include link-color(var(--color-dark));
+		}
+		&:after {
+			content: '';
+			@include square(#{rem(16)});
+			background-image: url("../../assets/images/icons/chevron-right.svg");
+			background-size: contain;
+			opacity: 0.6;
+		}
+	}
+	&__last {
+		color: var(--color-dark);
+	}
+}

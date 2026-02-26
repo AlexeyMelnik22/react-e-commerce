@@ -1,0 +1,54 @@
+@use "../../scss/helpers" as *;
+
+.catalog {
+	padding-bottom: rem(80);
+	&__inner {
+		display: grid;
+		grid-template-areas: "aside page";
+		grid-template-columns: rem(295) auto;
+		grid-column-gap: rem(20);
+		@include tablet {
+			grid-template-areas: "page";
+			grid-template-columns: auto;
+		}
+	}
+	&__side {
+		padding-bottom: rem(32);
+		&-header {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			margin-bottom: rem(20);
+			column-gap: rem(10);
+			.sort {
+				display: flex;
+				align-items: center;
+				column-gap: rem(12);
+				.sort-by {
+					display: flex;
+					align-items: center;
+					column-gap: rem(3);
+				}
+			}
+		}
+		&-list {
+			grid-area: page;
+			display: grid;
+			grid-template-columns: repeat(auto-fill,minmax(#{fluid(250, 198)},max-content));
+			grid-gap: rem(20);
+			@include mobile {
+				grid-template-columns: 1fr 1fr;
+			}
+			.card {
+				width: 100%;
+				&__preview {
+					width: 100%;
+					height: auto;
+				}
+				&__info {
+					width: 100%;
+				}
+			}
+		}
+	}
+}

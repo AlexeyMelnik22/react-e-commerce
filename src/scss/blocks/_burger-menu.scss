@@ -1,0 +1,13 @@
+@use "../../scss/helpers" as *;
+
+.burger__button {
+	display: flex;
+	flex-direction: column;
+	row-gap: rem(5);
+	.burger__line {
+		width: rem(19);
+		height: rem(2);
+		border-radius: rem(50);
+		background-color: var(--color-dark);
+	}
+}

@@ -1,0 +1,244 @@
+@use "../scss/helpers" as *;
+
+.header {
+	z-index: 50;
+	inline-size: 100%;
+	transition: background-color var(--bs-transition);
+	position: relative;
+	&:after {
+		position: absolute;
+		bottom: 0;
+		height: rem(1);
+		background-color: var(--color-border);
+		left: var(--container-padding-x);
+		right: var(--container-padding-x);
+		content: "";
+	}
+
+	&__promo {
+		background-color: var(--color-dark);
+		color: var(--color-light);
+		text-align: center;
+		height: rem(34);
+		display: flex;
+		align-items: center;
+
+		&-inner {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			padding-right: rem(24);
+			position: relative;
+			@include fluid-text(14, 13);
+		}
+
+		&-link {
+			color: var(--color-light);
+			font-weight: 700;
+		}
+
+		&-close {
+			position: absolute;
+			right: 0;
+		}
+	}
+
+	&__logo {
+		display: flex;
+		@include mobile {
+			margin-right: auto;
+		}
+		.logo__image {
+			width: fluid(160, 126);
+			height: fluid(25, 20);
+		}
+	}
+	&__body {
+		padding-block: rem(24);
+
+		&-inner {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			column-gap: rem(40);
+			@include mobile {
+				column-gap: rem(16);
+			}
+		}
+	}
+
+	&__menu {
+		@include mobile-above {
+			display: contents;
+		}
+		@include mobile {
+			position: fixed;
+			inset: 0;
+			background-color: var(--color-light);
+			padding: rem(20);
+			z-index: 999;
+			transition: var(--transition-duration);
+			&:not(.is-active) {
+				visibility: hidden;
+				opacity: 0;
+				translate: 100%;
+
+			}
+		}
+		&-close {
+			@include mobile-above {
+				display: none;
+			}
+			@include mobile {
+				display: flex;
+				position: absolute;
+				right: rem(20);
+				top: rem(20);
+				.icon {
+					width: rem(30);
+					height: rem(30);
+				}
+			}
+		}
+		&-list {
+			display: flex;
+			align-items: center;
+			column-gap: fluid(24, 20);
+			@include laptop-above {
+				column-gap: fluid(38, 24);
+			}
+			@include mobile {
+				flex-direction: column;
+				row-gap: rem(30);
+				align-items: flex-start;
+			}
+		}
+
+		&-item {
+
+		}
+
+		&-link {
+			white-space: nowrap;
+			color: var(--color-dark);
+			transition: color var(--transition-duration);
+
+			&:hover {
+				color: var(--color-gray-60);
+			}
+			@include mobile {
+				font-size: em(30);
+			}
+		}
+	}
+
+	&__controls {
+		display: flex;
+		align-items: center;
+		column-gap: fluid(14, 12);
+
+		.header__search-button {
+			display: none;
+			@include media-mx(920) {
+				display: flex;
+			}
+		}
+	}
+	&__control {
+		transition: opacity var(--transition-duration);
+		&:hover, &:focus {
+			opacity: .6;
+		}
+	}
+
+	&__search {
+		width: fluid(577, 200);
+		transition: var(--transition-duration);
+		@include laptop-above {
+			width: fluid(700, 577);
+		}
+		@include media-mx(920) {
+			z-index: 997;
+			visibility: hidden;
+			opacity: 0;
+			right: var(--container-padding-x);
+			left: var(--container-padding-x);
+			position: absolute;
+			width: auto;
+			background-color: var(--color-light);
+		}
+
+		.input__search {
+			width: 100%;
+
+			.search {
+				width: 100%;
+			}
+		}
+		&.is-active {
+			visibility: visible;
+			opacity: 1
+		}
+	}
+	.header-is-sticky & {
+		position: fixed;
+		background-color: var(--color-light);
+		top: 0;
+	}
+}
+
+// Burger
+/*
+.icon-menu {
+  display: none;
+
+  @include media-mx(768) {
+    display: block;
+    position: relative;
+    width: rem(30);
+    height: rem(18);
+    cursor: pointer;
+    z-index: 5;
+
+    span,
+    &::before,
+    &::after {
+      content: "";
+      transition: all 300ms ease 0ms;
+      right: 0;
+      position: absolute;
+      width: 100%;
+      height: rem(2);
+      background-color: #000;
+    }
+
+    &::before {
+      top: 0;
+    }
+
+    &::after {
+      bottom: 0;
+    }
+
+    span {
+      top: calc(50% - rem(1));
+    }
+
+    .menu-open & {
+      span {
+        width: 0;
+      }
+
+      &::before {
+        top: calc(50% - rem(1));
+        transform: rotate(-45deg);
+      }
+
+      &::after {
+        bottom: calc(50% - rem(1));
+        transform: rotate(45deg);
+      }
+    }
+  }
+}
+*/

@@ -1,0 +1,29 @@
+@use "../../scss/helpers" as *;
+@use '../components/button' as *;
+
+.size {
+	display: flex;
+	&__list {
+		display: flex;
+		flex-wrap: wrap;
+		column-gap: fluid(12, 8);
+		row-gap: fluid(12, 8);
+	}
+	&__item {
+		cursor: pointer;
+		display: inline-flex;
+		height: fluid(46, 39);
+		padding: fluid(12, 10) fluid(24, 20);
+		background-color: var(--color-gray-2);
+		border-radius: rem(50);
+		flex-shrink: 0;
+		transition: opacity var(--transition-duration);
+		&.active {
+			background-color: var(--color-dark);
+			color: var(--color-light);
+		}
+		&:hover {
+			opacity: .8;
+		}
+	}
+}

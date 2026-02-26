@@ -1,0 +1,27 @@
+@use "../../scss/helpers" as *;
+
+.quantity {
+	&__selector {
+		display: flex;
+		align-items: center; /* Centers items vertically */
+		width: rem(170);
+		position: relative;
+		flex-shrink: 0;
+	}
+	&__input {
+		width: 100%;
+		padding: rem(16) rem(40);
+		text-align: center;
+	}
+	&__button {
+		display: flex;
+		position: absolute;
+		z-index: 1;
+		&.minus {
+			left: rem(16);
+		}
+		&.plus {
+			right: rem(16);
+		}
+	}
+}

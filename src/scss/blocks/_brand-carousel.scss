@@ -1,0 +1,20 @@
+@use "../../scss/helpers" as *;
+
+.brand {
+	&__line {
+		background-color: var(--color-dark);
+	}
+	&__swiper {
+
+	}
+	&__swipe {
+		height: fluid(122, 80);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	&__img {
+		height: fluid(33, 28);
+		width: auto;
+	}
+}

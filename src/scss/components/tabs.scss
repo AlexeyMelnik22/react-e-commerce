@@ -1,0 +1,71 @@
+@use "../../scss/helpers" as *;
+
+.tabs {
+	display: flex;
+	gap: rem(10);
+	flex-direction: column;
+
+	// .tabs__nav
+	&__nav {
+		display: flex;
+		align-items: center;
+	}
+
+	// .tabs__trigger
+	&__trigger {
+		padding: rem(24);
+		color: var(--color-gray-60);
+		width: 50%;
+		transition: 0.2s ease-in-out;
+		border-bottom: rem(2) solid var(--color-gray-10);
+		font-weight: 400;
+		display: block;
+		text-overflow: ellipsis;
+		overflow: hidden;
+		white-space: nowrap;
+
+		&.active {
+			color: var(--color-dark);
+			border-color: var(--color-dark);
+			font-weight: 500;
+		}
+	}
+
+	// .tabs__panel
+	&__panel {
+		display: none;
+		animation: fade-up-big 0.4s forwards;
+
+		&.active {
+			display: block;
+		}
+		.panel__header {
+			margin-bottom: fluid(32, 20);
+		}
+		.panel__footer {
+			margin-top: rem(36);
+			display: flex;
+			justify-content: center;
+		}
+		.panel__controls {
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			flex-wrap: wrap;
+			column-gap: rem(20);
+			row-gap: rem(20);
+		}
+		.panel__headline {
+			display: flex;
+			align-items: flex-end;
+			&-qnt {
+				margin-left: fluid(8, 6);
+				color: var(--color-gray-60);
+			}
+		}
+	}
+	//content for tabs
+	&__content {
+		padding-block: rem(32);
+	}
+}
