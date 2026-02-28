@@ -6,8 +6,12 @@ import ReviewBlock from "./ReviewBlock.jsx";
 
 const Reviews = (props) => {
     const {
-        dataReviews
+        dataReviews,
+        error,
+        loading
     } = props
+    if (loading) return <div className="container">Loading...</div>;
+    if (error) return <div className="container">Error: {error}</div>;
     return (
         <section className="reviews" aria-labelledby="review-title">
             <div className="reviews__header">

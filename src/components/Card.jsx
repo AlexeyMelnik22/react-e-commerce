@@ -6,8 +6,13 @@ import {Link} from "react-router-dom";
 const Card = (props) => {
     const {
         data,
-        imgPath
+        imgPath,
+        loading,
+        error
     }= props
+
+    if (loading) return <div className="container">Loading...</div>;
+    if (error) return <div className="container">Error: {error}</div>;
 
     const handleClick = () => {
         window.reload()

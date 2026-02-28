@@ -1,14 +1,19 @@
 import React from 'react';
 import Button from "../components/Button.jsx";
 import Card from "../components/Card.jsx";
-import card from "../components/Card.jsx";
 
 const SectionSell = (props) => {
     const {
         titleSection,
         data,
-        imgPath
+        imgPath,
+        loading,
+        error
     } = props
+
+    if (loading) return <div className="container">Loading...</div>;
+    if (error) return <div className="container">Error: {error}</div>;
+
     return (
         <section className="section section-bordered">
             <div className="section__header">
