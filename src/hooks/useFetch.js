@@ -6,7 +6,7 @@ function useFetch(url) {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        fetch(url)
+        fetch(`/react-clothes-project/${url}`)
             .then(res => {
                 if (!res.ok) throw new Error('Loading Error');
                 return res.json();

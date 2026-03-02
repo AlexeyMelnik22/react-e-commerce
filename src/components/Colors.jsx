@@ -11,8 +11,8 @@ const Colors = (props) => {
     return (
         <div className="colors">
             <ul className="colors__list">
-                {colors.map(color => (
-                    <div className="colors__item">
+                {colors?.map(color => (
+                    <div key={color} className="colors__item">
                         <button
                             title={color}
                             className={`color ${activeColor === color ? "is-active" : ""} ${imageColors && (imageColors[`${color}`] ? "" : "inactive") }`}
@@ -20,7 +20,7 @@ const Colors = (props) => {
                             onClick={() => handleColorClick(color)}
                         >
                             <img src={`${imgPath}/colors/${color}.png`} alt={color}
-                                 title="green"/>
+                                 title={color}/>
                         </button>
                     </div>
                 ))}

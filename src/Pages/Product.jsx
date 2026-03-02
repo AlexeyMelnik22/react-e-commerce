@@ -10,66 +10,55 @@ import ReviewBlock from "../components/ReviewBlock.jsx";
 import Accordion from "../components/Accordion/Accordion.jsx";
 import AccordionItem from "../components/Accordion/Accordion.jsx";
 import SectionSell from "../sections/SectionSell.jsx";
+import useFetch from "../hooks/useFetch.js";
 
-const cardsLike = [
-    {id: "1", image: "../images/products/t-shirt-with-tape-details.png", title: "T-SHIRT WITH TAPE DETAILS", ratingStar: 4, rating: "3", price: "120", oldPrice: "", discount: "", category: "t-shirt", color: "green" , size: "small", style: "casual" },
-    {id: "2", image: "../images/products/skinny-fit-jeans.png", title: "SKINNY FIT JEANS", ratingStar: 4, rating: "5", price: "240", oldPrice: "260", discount: "-20", category: "shorts", color: "red" , size: "small", style: "casual" },
-    {id: "3", image: "../images/products/checkered-shirt.png", title: "CHECKERED SHIRT", ratingStar: 5, rating: "4", price: "180", oldPrice: "", discount: "", category: "shirts", color: "yellow" , size: "small", style: "formal" },
-    {id: "4", image: "../images/products/sleeve-striped-t-shirt.png", title: "SLEEVE STRIPED T-SHIRT", ratingStar: 5, rating: "5", price: "130", oldPrice: "160", discount: "-30%", category: "jeans", color: "red" , size: "medium", style: "formal" },
-]
-
-const reviews = [
-    {id: "1", name:"Sarah M.",
-        text: "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
-        rating: 4,
-        date: "Posted on August 14, 2025"
-    },
-    {id: "2", name:"Sarah M.",
-        text: "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
-        rating: 5,
-        date: "Posted on August 14, 2025"
-    },
-    {id: "3", name:"Sarah M.",
-        text: "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
-        rating: 3,
-        date: "Posted on August 14, 2025"
-    },
-    {id: "4", name:"Sarah M.",
-        text: "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
-        rating: 5,
-        date: "Posted on August 14, 2025"
-    },
-    {id: "5", name:"Sarah M.",
-        text: "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
-        rating: 4,
-        date: "Posted on August 14, 2025"
-    },
-    {id: "6", name:"Sarah M.",
-        text: "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
-        rating: 5,
-        date: "Posted on August 14, 2025"
-    }
-]
 const Product = () => {
 
+    const { data: cards, loading, error } = useFetch('data/products.json');
+    const { data: reviews, loading: reviewsLoading, error: reviewsError } = useFetch('data/reviews.json');
+    const filterTypeNew = 'new';
+
     const { item } = useParams()
-    const [searchParams, setSearchParams] = useSearchParams();
     const [quantity, setQuantity] = useState(1)
     const [thumb, setThumb] = useState(0);
     const [thumbSrc, setThumbSrc] = useState("");
 
+    const [searchParams, setSearchParams] = useSearchParams();
     const id = searchParams.get('id'); // "id"
     const activeSize = searchParams.get('size'); // "size"
     const activeColor = searchParams.get('color'); // "color"
-    const price = searchParams.get('price'); // "price"
-    const oldPrice = searchParams.get('oldPrice'); // "old price"
-    const discount = searchParams.get('discount'); // "discount"
-    const rating = searchParams.get('rate'); // "discount"
     const qnt = searchParams.get('qnt'); // "quantity"
+
+    const selectedProductData = cards?.find(product => product.id === id); //active product params
+
+    const PRODUCT = {
+        id: id,
+        name: item.replace(/\s*-\s*/g, ' ').toUpperCase(),
+        price: selectedProductData?.price,
+        oldPrice: selectedProductData?.oldPrice,
+        activeColor: activeColor || selectedProductData?.color,
+        discount: selectedProductData?.discount,
+        activeSize: activeSize || selectedProductData?.size,
+        description: "Comfortable cotton T-shirt with multiple color options.",
+        colors : selectedProductData?.colors,
+        sizes: selectedProductData?.sizes,
+        images: {
+            red: [`../src/assets/images/products/${item}-red.png`, `../src/assets/images/products/${item}-red-1.png`, `../src/assets/images/products/${item}-red-3.png`],
+            black: [`../src/assets/images/products/${item}-black.png`, `../src/assets/images/products/${item}-black-2.png`, `../src/assets/images/products/${item}-black-3.png`],
+            green: [`../src/assets/images/products/${item}-green.png`, `../src/assets/images/products/${item}-green-2.png`, `../src/assets/images/products/${item}-green-3.png`],
+            yellow: [`../src/assets/images/products/${item}-yellow.png`, `../src/assets/images/products/${item}yellow-2.png`, `../src/assets/images/products/${item}-yellow-3.png`],
+            orange: [`../src/assets/images/products/${item}-orange.png`, `../src/assets/images/products/${item}-orange-2.png`, `../src/assets/images/products/${item}-orange-3.png`],
+        },
+    };
+
+    //filter cards for section like cards
+    const filteredProductsNew = cards?.filter(product => {
+        return product.type === filterTypeNew;
+    });
+
 
     const onClickIncreaseHandle = ()=> {
         setQuantity(prevState => prevState + 1)
-        // Update search param
 
     }
     const onClickDecreaseHandle = ()=> {
@@ -86,24 +75,6 @@ const Product = () => {
         });
     }, [quantity]);
 
-    const PRODUCT = {
-        id: id,
-        name: item.replace(/\s*-\s*/g, ' ').toUpperCase(),
-        price: price,
-        oldPrice: oldPrice,
-        activeColor: activeColor,
-        discount: discount,
-        activeSize: activeSize,
-        description: "Comfortable cotton T-shirt with multiple color options.",
-        colors : ["green","red","yellow","orange","blue-light","blue","purple","rose","white", "black"],
-        sizes: ["small", "medium", "large", "x-large"],
-        images: {
-            red: [`../images/products/${item}-red.png`, `../images/products/${item}-red.png`, `../images/products/${item}-red.png`],
-            black: [`../images/products/${item}.png`, `../images/products/${item}-1.png`, `../images/products/${item}-2.png`],
-            green: [`../images/products/${item}-green.png`, `../images/products/${item}-green.png`, `../images/products/${item}-green.png`],
-            yellow: [`../images/products/${item}.png`, `../images/products/${item}.png`, `../images/products/${item}.png`],
-        },
-    };
 
     const [selectedColor, setSelectedColor] = useState(PRODUCT.activeColor);
     const [selectedSize, setSelectedSize] = useState(PRODUCT.activeSize);
@@ -173,17 +144,17 @@ const Product = () => {
                             {PRODUCT.name}
                         </h2>
                         <div className="product__rating">
-                            <Rating value={rating}/>
+                            <Rating value={selectedProductData?.rating}/>
                         </div>
                         <div className="product__price">
                             <div className="price">
-                                {`$${price}`}
+                                {`${PRODUCT.price ? "$" + PRODUCT.price : ""}`}
                             </div>
                             <div className="price-old">
-                                {`${oldPrice ? "$" + oldPrice : ""}`}
+                                {`${PRODUCT.oldPrice ? "$" + PRODUCT.oldPrice : ""}`}
                             </div>
                             <div className="discount">
-                                {discount ? discount : ""}
+                                {PRODUCT.discount}
                             </div>
                         </div>
                         <div className="product__desc">
@@ -192,12 +163,12 @@ const Product = () => {
                         </div>
                         <div className="product__colors product__row">
                             <p className="product__row-title">Select Colors</p>
-                            <Colors imageColors={PRODUCT.images} imgPath="../images" colors={PRODUCT.colors} activeColor={selectedColor}
+                            <Colors imageColors={PRODUCT.images} imgPath="../images" colors={PRODUCT.colors} activeColor={PRODUCT.activeColor}
                                     handleColorClick={handleColorClick}/>
                         </div>
                         <div className="product__size product__row">
                             <p className="product__row-title">Choose Size</p>
-                            <Sizes sizes={PRODUCT.sizes} activeSize={activeSize} handleSizeClick={handleSizeClick}/>
+                            <Sizes sizes={PRODUCT.sizes} activeSize={selectedSize} handleSizeClick={handleSizeClick}/>
                         </div>
                         <div className="product__cart">
                             <div className="quantity__selector">
@@ -273,7 +244,7 @@ const Product = () => {
                             </div>
                             <div className="panel__body">
                                 <div className="reviews-col-2">
-                                    {reviews.map(item => (
+                                    {reviews?.map(item => (
                                         <ReviewBlock dataReview={item}/>
                                     ))}
                                 </div>
@@ -306,7 +277,7 @@ const Product = () => {
                     </Tabs>
                 </div>
             </section>
-            <SectionSell titleSection="You might also like" data={cardsLike} imgPath="../images"/>
+            <SectionSell titleSection="You might also like"  data={filteredProductsNew} imgPath="../images"/>
         </>
     );
 };

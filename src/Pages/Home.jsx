@@ -12,12 +12,10 @@ const Home = () => {
     const { data: cardsNew, loading: cardsNewLoading, error: cardsNewError } = useFetch('data/products.json');
     const { data: cardsTop, loading: cardsTopLoading, error: cardsTopError } = useFetch('data/products.json');
 
-    const [filterTypeNew, setFilterTypeNew] = useState('new');
-    const [filterTypeTop, setFilterTypeTop] = useState('top');
+    const filterTypeNew = 'new';
+    const filterTypeTop = 'top';
 
 
-
-    // Фільтр за type
     const filteredProductsNew = cardsNew?.filter(product => {
         return product.type === filterTypeNew;
     });

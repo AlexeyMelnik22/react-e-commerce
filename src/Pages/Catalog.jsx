@@ -9,7 +9,7 @@ import useFetch from "../hooks/useFetch.js";
 
 const MIN_PRICE = 0;
 const MAX_PRICE = 500;
-const ITEMS_PER_PAGE = 8; // qnt cards per page
+const ITEMS_PER_PAGE = 4; // qnt cards per page
 
 
 const categories = ["all", "t-shirt", "shorts", "shirts", "jeans" ]

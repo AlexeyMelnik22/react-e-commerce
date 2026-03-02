@@ -10,8 +10,6 @@ const Reviews = (props) => {
         error,
         loading
     } = props
-    if (loading) return <div className="container">Loading...</div>;
-    if (error) return <div className="container">Error: {error}</div>;
     return (
         <section className="reviews" aria-labelledby="review-title">
             <div className="reviews__header">
@@ -49,9 +47,9 @@ const Reviews = (props) => {
                             },
                         }}
                     >
-                        {dataReviews.map((item, index) => (
+                        {dataReviews?.map((item, index) => (
                             <SwiperSlide className="reviews__swipe" key={index}>
-                                <ReviewBlock dataReview={item}/>
+                                <ReviewBlock loading={loading} error={error} dataReview={item}/>
                             </SwiperSlide>
                         ))}
                     </Swiper>

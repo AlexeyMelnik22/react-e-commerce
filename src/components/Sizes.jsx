@@ -9,7 +9,7 @@ const Sizes = (props) => {
     return (
         <div className="size">
             <ul className="size__list">
-                {sizes.map(size => (
+                {sizes?.map(size => (
                     <li key={size}
                         className={`size__item ${activeSize === size ? "active" : ""}`}
                         title={size}

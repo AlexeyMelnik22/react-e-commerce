@@ -15,18 +15,17 @@ const Card = (props) => {
     if (error) return <div className="container">Error: {error}</div>;
 
     const handleClick = () => {
-        window.reload()
         window.scrollTo({
             top: 0,
             left: 0,
-            behavior: 'smooth', // або 'auto' для миттєвого скролу
+            behavior: 'smooth',
         });
     };
 
     return (
         <div className="card card-product">
             <div className="card__preview">
-                <Link to={`/catalog/${data.title.toLowerCase().replace(/\s+/g, '-')}?id=${data.id}&size=${data.size}&color=${data.color}&price=${data.price}&oldPrice=${data.oldPrice}&discount=${data.discount}&rate=${data.rating}`} className="card__preview--link"
+                <Link to={`/catalog/${data.title.toLowerCase().replace(/\s+/g, '-')}?id=${data.id}&size=${data.size}&color=${data.color}`} className="card__preview--link"
                       title={data.title}
                       aria-label="Open product page" onClick={handleClick}>
                     <img
@@ -40,7 +39,7 @@ const Card = (props) => {
             </div>
             <div className="card__info">
                 <h6 className="card__name h6">
-                    <Link to={`/catalog/${data.title.toLowerCase().replace(/\s+/g, '-')}?id=${data.id}&size=${data.size}&color=${data.color}&price=${data.price}&oldPrice=${data.oldPrice}&discount=${data.discount}&rate=${data.rating}`}
+                    <Link to={`/catalog/${data.title.toLowerCase().replace(/\s+/g, '-')}?id=${data.id}&size=${data.size}&color=${data.color}`}
                           className="card__name-link link link-dark"
                           title={data.title}
                           aria-label="Open product page"

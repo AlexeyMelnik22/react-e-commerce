@@ -1,12 +1,40 @@
 import svgSprite from "../assets/sprite.svg"
-import React, {useState} from "react";
-import {BrowserRouter, Routes, Route, Link, NavLink} from "react-router-dom";
+import React, {useRef, useState, useEffect} from "react";
+import {BrowserRouter, Routes, Route, Link, NavLink, useLocation} from "react-router-dom";
+import useFetch from "../hooks/useFetch.js";
 
 const Header = () => {
 
     const [promoAlert, setPromoAlert] = useState(true)
+    const { data: cards, loading: cardsLoading, error: cardsError } = useFetch('data/products.json');
+    const [search, setSearch] = useState("");
 
+    const filteredProducts = cards?.filter(product =>
+        product.title.toLowerCase().includes(search.toLowerCase())
+    );
 
+    const searchBlockRef = useRef(null);
+
+    const location = useLocation();
+
+    //when change route - close searchBlock
+    useEffect(() => {
+        setSearch('');
+    }, [location, setSearch]);
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                searchBlockRef.current &&
+                !searchBlockRef.current.contains(event.target)
+            ) {
+                setSearch('');
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [setSearch]);
     return (
         <>
             <header className="header" data-lp="" data-header="">
@@ -115,12 +143,43 @@ const Header = () => {
                                     </svg>
                                 </button>
                                 <input
+                                    onChange={(event)=> setSearch(event.target.value)}
+                                    value={search}
                                     type="search"
                                     name="Main search"
                                     className="input__control"
                                     placeholder="Search for products..."
                                 />
                             </label>
+                            <div className={`header__search-block ${search && "active"}`} ref={searchBlockRef}>
+                                <ul className="header__search-list">
+                                    {filteredProducts?.map((product) => (
+                                        <li className="header__search-item" key={product.id}>
+                                            <Link
+                                                to={`/catalog/${product.title.toLowerCase().replace(/\s+/g, '-')}?id=${product.id}&size=${product.size}&color=${product.color}`}
+                                                className="header__search-link"
+                                                title={product.title}
+                                                aria-label="Open product page">
+
+                                                <div className="header__search-img">
+                                                    <img src={`/react-clothes-project/${product.image}`} width={100} height={100} alt=""/>
+                                                </div>
+                                                <div className="header__search-info">
+                                                    <div className="header__search-title">
+                                                        {product.title}
+                                                    </div>
+                                                    <div className="header__search-price">
+                                                        {product.price}
+                                                    </div>
+                                                </div>
+                                            </Link>
+                                        </li>
+                                    ))}
+                                    {filteredProducts?.length === 0 && (
+                                        <p>Нічого не знайдено!</p>
+                                    )}
+                                </ul>
+                            </div>
                         </div>
                         <div className="header__controls">
                             <button

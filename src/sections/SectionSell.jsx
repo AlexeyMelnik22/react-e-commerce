@@ -1,6 +1,7 @@
 import React from 'react';
 import Button from "../components/Button.jsx";
 import Card from "../components/Card.jsx";
+import {Link} from "react-router-dom";
 
 const SectionSell = (props) => {
     const {
@@ -11,9 +12,9 @@ const SectionSell = (props) => {
         error
     } = props
 
-    if (loading) return <div className="container">Loading...</div>;
-    if (error) return <div className="container">Error: {error}</div>;
-
+    const goToTop = ()=> {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
     return (
         <section className="section section-bordered">
             <div className="section__header">
@@ -26,17 +27,15 @@ const SectionSell = (props) => {
             <div className="section__body">
                 <div className="section__body-inner container">
                     <div className="cards-carousel">
-                        {data.map(item => (
-                            <Card data={item} imgPath={imgPath}/>
+                        {data?.map(item => (
+                            <Card loading={loading} error={error} data={item} imgPath={imgPath}/>
                         ))}
                     </div>
                 </div>
             </div>
             <div className="section__footer">
                 <div className="section__footer-inner container">
-                    <Button className="btn__secondary">
-                        View All
-                    </Button>
+                    <Link to="/catalog" className="btn btn__secondary" onClick={goToTop}>View All</Link>
                 </div>
             </div>
         </section>

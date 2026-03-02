@@ -1,7 +1,11 @@
 import React from 'react';
 import Button from "../components/Button.jsx";
+import {Link} from "react-router-dom";
 
 const Hero = () => {
+    const goToTop = ()=> {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+    }
     return (
         <section className="hero" aria-labelledby="hero-title">
             <div className="hero__main container">
@@ -17,9 +21,7 @@ const Hero = () => {
                         </p>
                     </div>
                     <div className="hero__button">
-                        <Button className="btn__primary btn__max-mobile">
-                            Shop Now
-                        </Button>
+                        <Link to="/catalog" className="btn btn__primary btn__max-mobile" onClick={goToTop}> Shop Now</Link>
                     </div>
                 </div>
                 <div className="hero__metrics metrics">

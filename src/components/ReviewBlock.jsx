@@ -3,8 +3,13 @@ import Rating from "./Rating.jsx";
 
 const ReviewBlock = (props) => {
     const {
-        dataReview
+        dataReview,
+        loading,
+        error
     } = props
+
+    if (loading) return <div className="container">Loading...</div>;
+    if (error) return <div className="container">Error: {error}</div>;
     return (
         <div className="review-block">
             <div className="review-block__inner">
