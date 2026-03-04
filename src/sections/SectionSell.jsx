@@ -28,7 +28,7 @@ const SectionSell = (props) => {
                 <div className="section__body-inner container">
                     <div className="cards-carousel">
                         {data?.map(item => (
-                            <Card loading={loading} error={error} data={item} imgPath={imgPath}/>
+                            <Card loading={loading} error={error} data={item}/>
                         ))}
                     </div>
                 </div>

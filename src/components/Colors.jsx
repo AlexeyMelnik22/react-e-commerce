@@ -1,4 +1,5 @@
 import React from 'react';
+import getImageUrl from "../hooks/imageUtil.jsx";
 
 const Colors = (props) => {
     const {
@@ -6,8 +7,8 @@ const Colors = (props) => {
         activeColor,
         handleColorClick,
         imageColors,
-        imgPath
     }= props
+
     return (
         <div className="colors">
             <ul className="colors__list">
@@ -19,7 +20,7 @@ const Colors = (props) => {
                             key={color}
                             onClick={() => handleColorClick(color)}
                         >
-                            <img src={`${imgPath}/colors/${color}.png`} alt={color}
+                            <img src={getImageUrl("colors", `${color}.png`)} alt={color}
                                  title={color}/>
                         </button>
                     </div>

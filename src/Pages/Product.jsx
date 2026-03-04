@@ -11,8 +11,11 @@ import Accordion from "../components/Accordion/Accordion.jsx";
 import AccordionItem from "../components/Accordion/Accordion.jsx";
 import SectionSell from "../sections/SectionSell.jsx";
 import useFetch from "../hooks/useFetch.js";
+import getImageUrl from "../hooks/imageUtil.jsx";
 
 const Product = () => {
+
+    const defUrl = "/react-clothes-project/src/assets/";
 
     const { data: cards, loading, error } = useFetch('data/products.json');
     const { data: reviews, loading: reviewsLoading, error: reviewsError } = useFetch('data/reviews.json');
@@ -43,11 +46,11 @@ const Product = () => {
         colors : selectedProductData?.colors,
         sizes: selectedProductData?.sizes,
         images: {
-            red: [`../src/assets/images/products/${item}-red.png`, `../src/assets/images/products/${item}-red-1.png`, `../src/assets/images/products/${item}-red-3.png`],
-            black: [`../src/assets/images/products/${item}-black.png`, `../src/assets/images/products/${item}-black-2.png`, `../src/assets/images/products/${item}-black-3.png`],
-            green: [`../src/assets/images/products/${item}-green.png`, `../src/assets/images/products/${item}-green-2.png`, `../src/assets/images/products/${item}-green-3.png`],
-            yellow: [`../src/assets/images/products/${item}-yellow.png`, `../src/assets/images/products/${item}yellow-2.png`, `../src/assets/images/products/${item}-yellow-3.png`],
-            orange: [`../src/assets/images/products/${item}-orange.png`, `../src/assets/images/products/${item}-orange-2.png`, `../src/assets/images/products/${item}-orange-3.png`],
+            red: [`${item}-red.png`, `${item}-red-1.png`, `${item}-red-3.png`],
+            black: [`${item}-black.png`, `${item}-black-2.png`, `${item}-black-3.png`],
+            green: [`${item}-green.png`, `${item}-green-2.png`, `${item}-green-3.png`],
+            yellow: [`${item}-yellow.png`, `${item}yellow-2.png`, `${item}-yellow-3.png`],
+            orange: [`${item}-orange.png`, `${item}-orange-2.png`, `${item}-orange-3.png`],
         },
     };
 
@@ -109,8 +112,6 @@ const Product = () => {
         setThumb(index)
         setThumbSrc(event.target.getAttribute("src"))
     }
-
-
     return (
         <>
             <Breadcrumbs/>
@@ -124,7 +125,7 @@ const Product = () => {
                                         selectedColor && (
                                             <li className={`thumbnail__item ${index === thumb ? "active" : ""} `}
                                                 onClick={() => OnThumbnailClick(index, event)}>
-                                                <img src={PRODUCT.images[selectedColor][index]} alt=""
+                                                <img src={getImageUrl("products", PRODUCT.images[selectedColor][index])} alt=""
                                                      className="thumbnail__image"/>
                                             </li>
                                         )
@@ -133,7 +134,7 @@ const Product = () => {
                                 </ul>
                             </div>
                             <div className="thumbnail__main">
-                                <img src={thumbSrc ? thumbSrc : PRODUCT.images[selectedColor][0]} alt=""
+                                <img src={thumbSrc ? thumbSrc : getImageUrl("products", PRODUCT.images[selectedColor][0])} alt=""
                                      className="thumbnail__main-image"
                                      id="mainThumbnail"/>
                             </div>
@@ -175,16 +176,16 @@ const Product = () => {
                                 <label className="input__field">
                                     <button className="quantity__button minus" onClick={onClickDecreaseHandle}>
                                         <svg className="icon">
-                                            <use xlinkHref="../src/assets/images/icons/minus.svg"
-                                                 href="../src/assets/images/icons/minus.svg"></use>
+                                            <use xlinkHref="/react-clothes-project/images/icons/minus.svg"
+                                                 href="/react-clothes-project/icons/minus.svg"></use>
                                         </svg>
                                     </button>
                                     <input type="number" className="quantity__input input__control" value={qnt}
                                            min="1"/>
                                     <button className="quantity__button plus" onClick={onClickIncreaseHandle}>
                                         <svg className="icon">
-                                            <use xlinkHref="images/icons/plus.svg"
-                                                 href="../src/assets/images/icons/plus.svg"></use>
+                                            <use xlinkHref="/react-clothes-project/images/icons/plus.svg"
+                                                 href="/react-clothes-project/images/icons/plus.svg"></use>
                                         </svg>
                                     </button>
                                 </label>
@@ -277,7 +278,7 @@ const Product = () => {
                     </Tabs>
                 </div>
             </section>
-            <SectionSell titleSection="You might also like"  data={filteredProductsNew} imgPath="../images"/>
+            <SectionSell titleSection="You might also like"  data={filteredProductsNew}/>
         </>
     );
 };

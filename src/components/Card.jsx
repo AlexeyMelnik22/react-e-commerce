@@ -2,11 +2,11 @@ import React from 'react';
 import svgSprite from "../assets/sprite.svg";
 import Rating from "./Rating.jsx";
 import {Link} from "react-router-dom";
+import getImageUrl from "../hooks/imageUtil.jsx";
 
 const Card = (props) => {
     const {
         data,
-        imgPath,
         loading,
         error
     }= props
@@ -21,6 +21,7 @@ const Card = (props) => {
             behavior: 'smooth',
         });
     };
+    const prodName = data.title.toLowerCase().replace(/\s+/g, '-') + ".png"
 
     return (
         <div className="card card-product">
@@ -29,7 +30,7 @@ const Card = (props) => {
                       title={data.title}
                       aria-label="Open product page" onClick={handleClick}>
                     <img
-                        src={`${imgPath}/products/${data.title.toLowerCase().replace(/\s+/g, '-')}.png`}
+                        src={getImageUrl("products", prodName)}
                         alt=""
                         className="card__image"
                         width={295}

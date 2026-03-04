@@ -130,7 +130,7 @@ const Catalog = () => {
                             </li>
                             <li className="filters__block">
                                 <Accordion className="accordion__filter" title="Colors">
-                                    <Colors colors={colors} activeColor={activeColor} imgPath="images" handleColorClick={handleColorClick}/>
+                                    <Colors colors={colors} activeColor={activeColor} handleColorClick={handleColorClick}/>
                                 </Accordion>
                             </li>
                             <li className="filters__block">
@@ -172,7 +172,7 @@ const Catalog = () => {
                         <div className="catalog__side-list">
 
                             {paginatedCards?.map(card => (
-                                <Card loading={cardsLoading} error={cardsError} data={card} imgPath="images"/>
+                                <Card loading={cardsLoading} error={cardsError} data={card}/>
                             ))}
 
                             {paginatedCards?.length === 0 && (
