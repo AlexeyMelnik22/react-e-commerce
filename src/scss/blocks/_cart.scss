@@ -39,6 +39,7 @@
 			img {
 				object-fit: cover;
 				width: 100%;
+				height: 100%;
 			}
 		}
 		//info block
@@ -57,6 +58,7 @@
 			display: flex;
 			flex-direction: column;
 			row-gap: rem(2);
+			text-transform: capitalize;
 		}
 		&-param {
 			font-size: em(14);
@@ -66,9 +68,20 @@
 		}
 		&-price {
 			@include fluid-text(24, 20);
-			font-weight: 700;
 			margin-top: fluid(15, 13);
 			color: var(--color-dark);
+			.item__price {
+				.price {
+					@include fluid-text(24, 18);
+					font-weight: bold;
+				}
+				.price-old {
+					@include fluid-text(24, 18);
+				}
+				.discount {
+					@include fluid-text(14, 12);
+				}
+			}
 		}
 		//actions block
 		&-actions {

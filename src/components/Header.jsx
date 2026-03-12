@@ -2,8 +2,14 @@ import svgSprite from "../assets/sprite.svg"
 import React, {useRef, useState, useEffect} from "react";
 import {BrowserRouter, Routes, Route, Link, NavLink, useLocation} from "react-router-dom";
 import useFetch from "../hooks/useFetch.js";
+import getImageUrl from "../hooks/imageUtil.jsx";
+import { useCart } from './context/CartContext.jsx';
 
 const Header = () => {
+
+    // const cartLength = JSON.parse(localStorage.getItem('cart')) || "";
+
+    const { cartCount } = useCart();
 
     const [promoAlert, setPromoAlert] = useState(true)
     const { data: cards, loading: cardsLoading, error: cardsError } = useFetch('data/products.json');
@@ -162,7 +168,7 @@ const Header = () => {
                                                 aria-label="Open product page">
 
                                                 <div className="header__search-img">
-                                                    <img src={`/react-clothes-project/${product.image}`} width={100} height={100} alt=""/>
+                                                    <img src={getImageUrl("products", product.image)} width={100} height={100} alt=""/>
                                                 </div>
                                                 <div className="header__search-info">
                                                     <div className="header__search-title">
@@ -191,16 +197,14 @@ const Header = () => {
                                     <use href={`${svgSprite}#search`}/>
                                 </svg>
                             </button>
-                            <a
-                                href="cart.html"
-                                type="button"
-                                title="Cart"
-                                className="header__cart header__control"
-                            >
+                            <Link to="/cart" className="header__cart header__control">
                                 <svg className="icon" width={24} height={24}>
                                     <use href={`${svgSprite}#cart`}/>
                                 </svg>
-                            </a>
+                                <span className="notify">
+                                    {cartCount === 0 ? "" : cartCount }
+                                </span>
+                            </Link>
                             <button
                                 type="button"
                                 title=""

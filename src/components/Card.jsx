@@ -59,7 +59,7 @@ const Card = (props) => {
                         <div></div>
                     )}
                     {data.discount ? (
-                        <div className="discount">{data.discount}</div>
+                        <div className="discount">-{data.discount}%</div>
                     ) : (
                         <div></div>
                     )}

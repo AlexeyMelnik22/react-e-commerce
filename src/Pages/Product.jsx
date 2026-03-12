@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from 'react';
 import Breadcrumbs from "../components/Breadcrumbs.jsx";
 import Rating from "../components/Rating.jsx";
-import {useLocation, useParams, useSearchParams} from "react-router-dom";
+import {useParams, useSearchParams} from "react-router-dom";
 import Colors from "../components/Colors.jsx";
 import Sizes from "../components/Sizes.jsx";
 import Tabs from "../components/Tabs/Tabs.jsx";
@@ -12,13 +12,15 @@ import AccordionItem from "../components/Accordion/Accordion.jsx";
 import SectionSell from "../sections/SectionSell.jsx";
 import useFetch from "../hooks/useFetch.js";
 import getImageUrl from "../hooks/imageUtil.jsx";
+import { useCart } from '../components/context/CartContext.jsx';
+import imagePlaceholder from "../../public/images/placeholder.jpg"
 
 const Product = () => {
-
-    const defUrl = "/react-clothes-project/src/assets/";
+    const { cartItems, setCartItems } = useCart();
 
     const { data: cards, loading, error } = useFetch('data/products.json');
     const { data: reviews, loading: reviewsLoading, error: reviewsError } = useFetch('data/reviews.json');
+
     const filterTypeNew = 'new';
 
     const { item } = useParams()
@@ -30,7 +32,7 @@ const Product = () => {
     const id = searchParams.get('id'); // "id"
     const activeSize = searchParams.get('size'); // "size"
     const activeColor = searchParams.get('color'); // "color"
-    const qnt = searchParams.get('qnt'); // "quantity"
+    // const qnt = searchParams.get('qnt'); // "quantity"
 
     const selectedProductData = cards?.find(product => product.id === id); //active product params
 
@@ -45,6 +47,7 @@ const Product = () => {
         description: "Comfortable cotton T-shirt with multiple color options.",
         colors : selectedProductData?.colors,
         sizes: selectedProductData?.sizes,
+        quantity: quantity,
         images: {
             red: [`${item}-red.png`, `${item}-red-1.png`, `${item}-red-3.png`],
             black: [`${item}-black.png`, `${item}-black-2.png`, `${item}-black-3.png`],
@@ -59,6 +62,41 @@ const Product = () => {
         return product.type === filterTypeNew;
     });
 
+    const handleAddToCartClick = () => {
+        setCartItems(prev => {
+            const exist = prev.find(
+                item =>
+                    item.id === PRODUCT.id &&
+                    item.color === selectedColor &&
+                    item.size === activeSize
+            );
+
+            if (exist) {
+                return prev.map(item =>
+                    item.id === PRODUCT.id &&
+                    item.color === selectedColor &&
+                    item.size === activeSize
+                        ? { ...item, qnt: item.qnt + PRODUCT.quantity }
+                        : item
+                );
+            }
+
+            return [
+                ...prev,
+                {
+                    id: PRODUCT.id,
+                    name: PRODUCT.name,
+                    price: PRODUCT.price,
+                    qnt: PRODUCT.quantity,
+                    color: selectedColor,
+                    size: activeSize,
+                    discount: PRODUCT.discount,
+                    oldPrice: PRODUCT.oldPrice,
+                    image: PRODUCT.images[activeColor][0]
+                },
+            ];
+        });
+    };
 
     const onClickIncreaseHandle = ()=> {
         setQuantity(prevState => prevState + 1)
@@ -69,18 +107,9 @@ const Product = () => {
         quantity === 1 && setQuantity(1)
     }
 
-    useEffect(() => {
-        setSearchParams(prev => {
-            const params = new URLSearchParams(prev);
-            if (quantity) params.set("qnt", quantity);
-            else params.delete("qnt");
-            return params;
-        });
-    }, [quantity]);
-
 
     const [selectedColor, setSelectedColor] = useState(PRODUCT.activeColor);
-    const [selectedSize, setSelectedSize] = useState(PRODUCT.activeSize);
+    // const [selectedSize, setSelectedSize] = useState(PRODUCT.activeSize);
 
 
     const handleColorClick = (color) => {
@@ -98,7 +127,7 @@ const Product = () => {
     };
 
     const handleSizeClick = (size) => {
-        setSelectedSize(size);
+        // setSelectedSize(size);
 
         setSearchParams(prev => {
             const params = new URLSearchParams(prev);
@@ -112,6 +141,7 @@ const Product = () => {
         setThumb(index)
         setThumbSrc(event.target.getAttribute("src"))
     }
+
     return (
         <>
             <Breadcrumbs/>
@@ -125,8 +155,11 @@ const Product = () => {
                                         selectedColor && (
                                             <li className={`thumbnail__item ${index === thumb ? "active" : ""} `}
                                                 onClick={() => OnThumbnailClick(index, event)}>
-                                                <img src={getImageUrl("products", PRODUCT.images[selectedColor][index])} alt=""
-                                                     className="thumbnail__image"/>
+                                                <img src={getImageUrl("products", PRODUCT.images[activeColor][index])} alt=""
+                                                     className="thumbnail__image"
+                                                     onError={(e) => {
+                                                         e.target.src = imagePlaceholder;
+                                                     }}/>
                                             </li>
                                         )
 
@@ -134,9 +167,12 @@ const Product = () => {
                                 </ul>
                             </div>
                             <div className="thumbnail__main">
-                                <img src={thumbSrc ? thumbSrc : getImageUrl("products", PRODUCT.images[selectedColor][0])} alt=""
+                                <img src={thumbSrc ? thumbSrc : getImageUrl("products", PRODUCT.images[activeColor][0])} alt=""
                                      className="thumbnail__main-image"
-                                     id="mainThumbnail"/>
+                                     id="mainThumbnail"
+                                     onError={(e) => {
+                                         e.target.src = imagePlaceholder;
+                                     }}/>
                             </div>
                         </div>
                     </div>
@@ -155,7 +191,7 @@ const Product = () => {
                                 {`${PRODUCT.oldPrice ? "$" + PRODUCT.oldPrice : ""}`}
                             </div>
                             <div className="discount">
-                                {PRODUCT.discount}
+                                {`${PRODUCT.discount ? "-" + PRODUCT.discount + "%" : ""} `}
                             </div>
                         </div>
                         <div className="product__desc">
@@ -169,28 +205,22 @@ const Product = () => {
                         </div>
                         <div className="product__size product__row">
                             <p className="product__row-title">Choose Size</p>
-                            <Sizes sizes={PRODUCT.sizes} activeSize={selectedSize} handleSizeClick={handleSizeClick}/>
+                            <Sizes sizes={PRODUCT.sizes} activeSize={activeSize} handleSizeClick={handleSizeClick}/>
                         </div>
                         <div className="product__cart">
                             <div className="quantity__selector">
                                 <label className="input__field">
                                     <button className="quantity__button minus" onClick={onClickDecreaseHandle}>
-                                        <svg className="icon">
-                                            <use xlinkHref="/react-clothes-project/images/icons/minus.svg"
-                                                 href="/react-clothes-project/icons/minus.svg"></use>
-                                        </svg>
+                                        <img className="icon" src={getImageUrl("icons", "minus.svg")} alt=""/>
                                     </button>
-                                    <input type="number" className="quantity__input input__control" value={qnt}
+                                    <input type="number" className="quantity__input input__control" value={quantity}
                                            min="1"/>
                                     <button className="quantity__button plus" onClick={onClickIncreaseHandle}>
-                                        <svg className="icon">
-                                            <use xlinkHref="/react-clothes-project/images/icons/plus.svg"
-                                                 href="/react-clothes-project/images/icons/plus.svg"></use>
-                                        </svg>
+                                        <img className="icon" src={getImageUrl("icons", "plus.svg")} alt=""/>
                                     </button>
                                 </label>
                             </div>
-                            <button className="btn btn__primary btn__max">Add to Cart</button>
+                            <button className="btn btn__primary btn__max" onClick={handleAddToCartClick}>Add to Cart</button>
                         </div>
                     </div>
                 </div>

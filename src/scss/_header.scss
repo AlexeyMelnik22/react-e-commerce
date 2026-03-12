@@ -146,8 +146,22 @@
 	}
 	&__control {
 		transition: opacity var(--transition-duration);
+		position: relative;
 		&:hover, &:focus {
 			opacity: .6;
+		}
+		.notify {
+			&:empty {
+				display: none;
+			}
+			background-color: var(--color-red);
+			color: var(--color-light);
+			position: absolute;
+			right: rem(-12);
+			top: rem(-12);
+			padding: 0 rem(8);
+			border-radius: 10px;
+			font-size: em(14);
 		}
 	}
 
