@@ -132,10 +132,10 @@ const Cart = () => {
                                                 {product.price}$
                                             </div>
                                             <div className="price-old">
-                                                {product.oldPrice}$
+                                                {`${product.oldPrice && product.oldPrice + "$"}`}
                                             </div>
                                             <div className="discount">
-                                                -{product.discount}%
+                                                {`${product.discount && "-" + product.discount + "%"}`}
                                             </div>
                                         </div>
                                     </div>
