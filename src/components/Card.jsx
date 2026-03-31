@@ -3,6 +3,7 @@ import svgSprite from "../assets/sprite.svg";
 import Rating from "./Rating.jsx";
 import {Link} from "react-router-dom";
 import getImageUrl from "../hooks/imageUtil.jsx";
+import { motion } from "motion/react"
 
 const Card = (props) => {
     const {
@@ -24,7 +25,7 @@ const Card = (props) => {
     const prodName = data.title.toLowerCase().replace(/\s+/g, '-') + ".png"
 
     return (
-        <div className="card card-product">
+        <motion.div className="card card-product" initial={{ opacity: 0, y: -100 }} whileInView={{ opacity: 1, y:0 }}>
             <div className="card__preview">
                 <Link to={`/catalog/${data.title.toLowerCase().replace(/\s+/g, '-')}?id=${data.id}&size=${data.size}&color=${data.color}`} className="card__preview--link"
                       title={data.title}
@@ -65,7 +66,7 @@ const Card = (props) => {
                     )}
                 </div>
             </div>
-        </div>
+        </motion.div>
 
     );
 };
