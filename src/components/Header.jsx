@@ -1,9 +1,10 @@
 import svgSprite from "../assets/sprite.svg"
 import React, {useRef, useState, useEffect} from "react";
-import {BrowserRouter, Routes, Route, Link, NavLink, useLocation} from "react-router-dom";
+import {Link, useLocation, useNavigate } from "react-router-dom";
 import useFetch from "../hooks/useFetch.js";
 import getImageUrl from "../hooks/imageUtil.jsx";
 import { useCart } from './context/CartContext.jsx';
+import { motion } from "motion/react"
 
 const Header = () => {
 
@@ -12,13 +13,17 @@ const Header = () => {
     const { cartCount } = useCart();
 
     const [promoAlert, setPromoAlert] = useState(true)
-    const { data: cards, loading: cardsLoading, error: cardsError } = useFetch('data/products.json');
+    const [menu, setMenu] = useState("")
     const [search, setSearch] = useState("");
+    const [openSearch, setOpenSearch] = useState("");
+
+    const { data: cards, loading: cardsLoading, error: cardsError } = useFetch('data/products.json');
 
     const filteredProducts = cards?.filter(product =>
         product.title.toLowerCase().includes(search.toLowerCase())
     );
 
+    const searchRef = useRef(null);
     const searchBlockRef = useRef(null);
 
     const location = useLocation();
@@ -27,6 +32,10 @@ const Header = () => {
     useEffect(() => {
         setSearch('');
     }, [location, setSearch]);
+
+    useEffect(() => {
+        setOpenSearch('');
+    }, [location, setOpenSearch]);
 
     useEffect(() => {
         const handleClickOutside = (event) => {
@@ -41,6 +50,36 @@ const Header = () => {
         document.addEventListener('mousedown', handleClickOutside);
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [setSearch]);
+
+    useEffect(() => {
+        // Функція обробник кліку
+        const handleClickOutside = (event) => {
+            // Якщо елемент існує в DOM і клік (event.target) відбувся НЕ всередині нього
+            if (searchRef.current && !searchRef.current.contains(event.target)) {
+                setOpenSearch(""); // Знімаємо клас is-active
+            }
+        };
+
+        // Додаємо слухача подій на весь документ, якщо пошук відкритий
+        if (openSearch) {
+            document.addEventListener('mousedown', handleClickOutside);
+        }
+
+        //Функція очищення , щоб уникнути витоків пам'яті
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [openSearch]); // Хук спрацьовує при зміні стану isActive
+    const onOpenMenu = ()=> {
+        setMenu("is-active")
+    }
+    const onCloseMenu = ()=> {
+        setMenu("")
+    }
+    const onOpenSearch = ()=> {
+        setOpenSearch("is-active")
+    }
+
     return (
         <>
             <header className="header" data-lp="" data-header="">
@@ -78,7 +117,7 @@ const Header = () => {
                     <div className="header__body-inner container">
                         <button
                             className="header__burger-menu burger__button visible-mobile icon-menu"
-                            data-header-burger=""
+                            onClick={onOpenMenu}
                         >
                             <span className="burger__line"/>
                             <span className="burger__line"/>
@@ -89,31 +128,60 @@ const Header = () => {
                                 <use href={`${svgSprite}#logo`}/>
                             </svg>
                         </Link>
-                        <nav className="header__menu" data-header-menu="">
+                        <nav className={`header__menu ${menu}`} data-header-menu="">
                             <ul className="header__menu-list">
-                            <li className="header__menu-item">
-                                    <Link to="/catalog" className="header__menu-link">Shop</Link>
-                                </li>
-                                <li className="header__menu-item">
-                                    <a href="#" className="header__menu-link">
-                                        On Sale
-                                    </a>
-                                </li>
-                                <li className="header__menu-item">
-                                    <a href="#" className="header__menu-link">
-                                        New Arrivals
-                                    </a>
-                                </li>
-                                <li className="header__menu-item">
-                                    <a href="#" className="header__menu-link">
-                                        Brands
-                                    </a>
-                                </li>
+                                {menu === "is-active" ?
+                                    (
+                                        <>
+                                            <motion.li className="header__menu-item" initial={{opacity: 0, x: 200}}
+                                                       whileInView={{opacity: 1, x: 0}}>
+                                                <Link to="/catalog" className="header__menu-link"
+                                                      onClick={menu === "is-active" && onCloseMenu}>Shop</Link>
+                                            </motion.li>
+                                            <motion.li className="header__menu-item" initial={{opacity: 0, x: 200}}
+                                                       whileInView={{opacity: 1, x: 0}}>
+                                                <Link to="/#top-selling" className="header__menu-link"
+                                                      onClick={menu === "is-active" && onCloseMenu}>Top Selling</Link>
+                                            </motion.li>
+                                            <motion.li className="header__menu-item" initial={{opacity: 0, x: 200}}
+                                                       whileInView={{opacity: 1, x: 0}}>
+                                                <Link to="/#new-arrivals" className="header__menu-link"
+                                                      onClick={menu === "is-active" && onCloseMenu}>New Arrivals</Link>
+                                            </motion.li>
+                                            <motion.li className="header__menu-item" initial={{opacity: 0, x: 200}}
+                                                       whileInView={{opacity: 1, x: 0}}>
+                                                <Link to="/#brands" className="header__menu-link"
+                                                      onClick={menu === "is-active" && onCloseMenu}>Brands</Link>
+                                            </motion.li>
+                                        </>
+                                    )
+                                    :
+                                    (
+                                        <>
+                                            <li className="header__menu-item">
+                                                <Link to="/catalog" className="header__menu-link"
+                                                      onClick={menu === "is-active" && onCloseMenu}>Shop</Link>
+                                            </li>
+                                            <li className="header__menu-item">
+                                                <Link to="/#top-selling" className="header__menu-link"
+                                                      onClick={menu === "is-active" && onCloseMenu}>Top Selling</Link>
+                                            </li>
+                                            <li className="header__menu-item">
+                                                <Link to="/#new-arrivals" className="header__menu-link"
+                                                      onClick={menu === "is-active" && onCloseMenu}>New Arrivals</Link>
+                                            </li>
+                                            <li className="header__menu-item">
+                                                <Link to="/#brands" className="header__menu-link"
+                                                      onClick={menu === "is-active" && onCloseMenu}>Brands</Link>
+                                            </li>
+                                        </>
+                                    )
+                                }
                             </ul>
                             <button
                                 type="button"
                                 className="header__menu-close"
-                                data-header-menu-close=""
+                                onClick={onCloseMenu}
                             >
                                 <svg
                                     className="icon"
@@ -130,7 +198,7 @@ const Header = () => {
                                 </svg>
                             </button>
                         </nav>
-                        <div className="header__search">
+                        <div className={`header__search ${openSearch}`} ref={searchRef} >
                             <label className="input__search input__field">
                                 <button className="input__icon" type="submit" title="Search">
                                     <svg
@@ -192,6 +260,7 @@ const Header = () => {
                                 type="button"
                                 title=""
                                 className="header__search-button header__control"
+                                onClick={onOpenSearch}
                             >
                                 <svg className="icon" width={24} height={24}>
                                     <use href={`${svgSprite}#search`}/>

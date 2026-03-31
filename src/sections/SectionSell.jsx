@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 
 const SectionSell = (props) => {
     const {
+        id,
         titleSection,
         data,
         imgPath,
@@ -19,7 +20,7 @@ const SectionSell = (props) => {
         <section className="section section-bordered">
             <div className="section__header">
                 <div className="section__header-inner container">
-                    <h2 className="section__header-headline h2">
+                    <h2 className="section__header-headline h2" id={id}>
                         {titleSection}
                     </h2>
                 </div>

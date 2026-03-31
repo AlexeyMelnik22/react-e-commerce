@@ -122,7 +122,7 @@
 			white-space: nowrap;
 			color: var(--color-dark);
 			transition: color var(--transition-duration);
-
+			cursor: pointer;
 			&:hover {
 				color: var(--color-gray-60);
 			}
@@ -181,6 +181,7 @@
 			position: absolute;
 			width: auto;
 			background-color: var(--color-light);
+			padding: rem(6) 0;
 		}
 
 		.input__search {

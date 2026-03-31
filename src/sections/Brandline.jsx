@@ -7,7 +7,8 @@ import calvinKleinImg from "../assets/images/brands/calvin-klein.svg"
 import zaraImg from "../assets/images/brands/zara.svg"
 import versaceImg from "../assets/images/brands/versace.svg"
 
-const BrandLine = () => {
+const BrandLine = (props) => {
+    const {id} = props;
     const slides = [
         <img className="brand__img" src={versaceImg} alt="Versace" width="166"
              height="33"/>,
@@ -21,7 +22,7 @@ const BrandLine = () => {
         <img className="brand__img" src={zaraImg} alt="Zara" width="91" height="38"/>,
         <img className="brand__img" src={gucciImg} alt="Gucci" width="156" height="36"/>,];
     return (
-        <div className="brand__line">
+        <div className="brand__line" id={id}>
             <Swiper
                 modules={[Autoplay]}
                 spaceBetween={25}

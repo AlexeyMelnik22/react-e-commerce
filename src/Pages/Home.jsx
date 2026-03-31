@@ -26,9 +26,9 @@ const Home = () => {
     return (
         <>
             <Hero/>
-            <BrandLine/>
-            <SectionSell titleSection="NEW ARRIVALS" loading={cardsNewLoading} error={cardsNewError} data={filteredProductsNew} imgPath="images"/>
-            <SectionSell titleSection="TOP SELLING" loading={cardsTopLoading} error={cardsTopError} data={filteredProductsTop} imgPath="images"/>
+            <BrandLine id="brands"/>
+            <SectionSell id="new-arrivals" titleSection="NEW ARRIVALS" loading={cardsNewLoading} error={cardsNewError} data={filteredProductsNew} imgPath="images"/>
+            <SectionSell id="top-selling" titleSection="TOP SELLING" loading={cardsTopLoading} error={cardsTopError} data={filteredProductsTop} imgPath="images"/>
             <BrowseBy/>
             <Reviews dataReviews={reviews} loading={reviewsLoading} error={reviewsError}/>
         </>
