@@ -58,7 +58,7 @@
 			z-index: -1;
 			transition: var(--transition-duration);
 		}
-		&:hover, &:focus {
+		&:hover, &:focus, &.active {
 			&:before {
 				color: var(--btn-primary-color-active);
 				background-color: var(--btn-primary-bg-active);
@@ -73,7 +73,7 @@
 		color: var(--btn-secondary-color);
 		background-color: var(--btn-secondary-bg);
 		border: 1px solid var(--btn-secondary-border);
-		&:hover, &:focus {
+		&:hover, &:focus, &.active {
 			animation: secondary-btn var(--transition-duration) forwards;
 			color: var(--btn-secondary-color-active);
 			border: fluid(26 , 23) solid var(--btn-secondary-border-active);

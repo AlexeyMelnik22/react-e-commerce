@@ -3,6 +3,7 @@ import Rating from "./Rating.jsx";
 
 const ReviewBlock = (props) => {
     const {
+        productId,
         dataReview,
         loading,
         error

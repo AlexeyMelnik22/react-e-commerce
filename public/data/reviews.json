@@ -1,18 +1,47 @@
-[
-  {"id": "1", "name":"Sarah M.",
-    "text": "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
-    "rating": 4
-  },
-  {"id": "2", "name":"Sarah M.",
-    "text": "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
-    "rating": 5
-  },
-  {"id": "3", "name":"Sarah M.",
-    "text": "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
-    "rating": 3
-  },
-  {"id": "5", "name":"Sarah M.",
-    "text": "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
-    "rating": 5
-  }
-]
+{
+  "reviews": [
+    {
+      "id": "1",
+      "name": "Sarah M.",
+      "text": "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
+      "rating": 1
+    },
+    {
+      "id": "2",
+      "name": "Sarah M.",
+      "text": "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
+      "rating": 5
+    },
+    {
+      "id": "3",
+      "name": "Sarah M.",
+      "text": "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
+      "rating": 3
+    },
+    {
+      "id": "5",
+      "name": "Sarah M.",
+      "text": "I'm blown away by the quality and style of the clothes I received from Shop.co. From casual wear to elegant dresses, every piece I've bought has exceeded my expectations.",
+      "rating": 5
+    },
+    {
+      "id": "RSNdal-0IVQ",
+      "name": "test",
+      "text": "test",
+      "rating": "3"
+    },
+    {
+      "id": "73E8aIdnzR4",
+      "name": "Oleksii",
+      "text": "New review",
+      "rating": "5"
+    },
+    {
+      "id": "ZGckviokhFg",
+      "name": "oleksii",
+      "text": "gestg",
+      "rating": "1"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}

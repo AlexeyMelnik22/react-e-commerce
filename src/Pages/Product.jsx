@@ -14,12 +14,17 @@ import useFetch from "../hooks/useFetch.js";
 import getImageUrl from "../hooks/imageUtil.jsx";
 import { useCart } from '../components/context/CartContext.jsx';
 import imagePlaceholder from "../../public/images/placeholder.jpg"
+import { motion } from "motion/react"
+import Button from "../components/Button.jsx";
+import svgSend from "../assets/images/icons/send.svg"
+import { supabase } from '../supabaseClient.js';
 
 const Product = () => {
     const { cartItems, setCartItems } = useCart();
 
-    const { data: cards, loading, error } = useFetch('data/products.json');
-    const { data: reviews, loading: reviewsLoading, error: reviewsError } = useFetch('data/reviews.json');
+    const { data: cards, error } = useFetch('data/products.json');
+    // const { data: reviews, loading: reviewsLoading, error: reviewsError } = useFetch('data/reviews.json');
+    const [reviews, setReviews] = useState([]);
 
     const filterTypeNew = 'new';
 
@@ -27,6 +32,11 @@ const Product = () => {
     const [quantity, setQuantity] = useState(1)
     const [thumb, setThumb] = useState(0);
     const [thumbSrc, setThumbSrc] = useState("");
+    const [reviewsField, setReviewsField] = useState(false);
+    const [reviewsTextValue, setReviewsTextValue] = useState("")
+    const [reviewsNameValue, setReviewsNameValue] = useState("")
+    const [reviewsRateValue, setReviewsRateValue] = useState("")
+    const [loading, setLoading] = useState(true);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const id = searchParams.get('id'); // "id"
@@ -141,6 +151,76 @@ const Product = () => {
         setThumb(index)
         setThumbSrc(event.target.getAttribute("src"))
     }
+
+    //open reviews textarea
+    const onOpenReviews = ()=> {
+        setReviewsField(true)
+    }
+    const handleReviewsTextChange = (event) => {
+        setReviewsTextValue(prevState => event.target.value);
+    };
+    const handleReviewsNameChange = (event) => {
+        setReviewsNameValue(prevState => event.target.value);
+    };
+    const handleReviewsSelectRate = (event) => {
+        setReviewsRateValue(event.target.value)
+    }
+
+    // Downloading database Supabase
+    useEffect(() => {
+        if (PRODUCT.id) {
+            fetchReviews();
+        }
+    }, [PRODUCT.id]);
+
+    const fetchReviews = async () => {
+        try {
+            // .select('*') means "take all columns"
+            const { data, error } = await supabase
+                .from('reviews')
+                .select('*')
+                .eq('product_id', String(PRODUCT.id)) //filter id
+                .order('id', { ascending: false }); // Нові зверху
+
+            if (error) throw error;
+            if (data) setReviews(data);
+        } catch (error) {
+            console.error("Помилка завантаження з Supabase:", error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+    const handleAddReview = async () => {
+        if (reviewsTextValue.trim() === "" && reviewsTextValue.trim() === "" && reviewsRateValue.trim() === "") return;
+        //Create review object
+        const newReview = {
+            id: Date.now().toString(),
+            product_id: String(PRODUCT.id),
+            name: reviewsNameValue,
+            text: reviewsTextValue,
+            rating: parseInt(reviewsRateValue)
+        };
+        try {
+            // .insert() додає дані в таблицю
+            const { data, error } = await supabase
+                .from('reviews')
+                .insert([newReview])
+                .select(); // Просимо Supabase повернути створений рядок
+
+            if (error) throw error;
+
+            // Якщо успішно, додаємо новий відгук на початок списку
+            if (data && data.length > 0) {
+                setReviews([data[0], ...reviews]);
+                setReviewsNameValue("");
+                setReviewsTextValue("");
+                setReviewsRateValue("");
+                setReviewsField(false)
+            }
+        } catch (error) {
+            console.error("Помилка збереження в Supabase:", error.message);
+        }
+    };
 
     return (
         <>
@@ -257,7 +337,7 @@ const Product = () => {
                                     <div className="panel__headline">
                                         <h5 className="panel__headline-title h5">All Reviews</h5>
                                         <div className="panel__headline-qnt">
-                                            (451)
+                                            ({reviews.length})
                                         </div>
                                     </div>
                                     <div className="btn-group">
@@ -269,15 +349,52 @@ const Product = () => {
                                             </svg>
                                         </button>
                                         <button className="btn btn__grey btn__auto btn__select">Latest</button>
-                                        <button className="btn btn__primary btn__auto">Write a Review</button>
+                                        <button className="btn btn__primary btn__auto" onClick={onOpenReviews}>Write a Review</button>
                                     </div>
                                 </div>
                             </div>
                             <div className="panel__body">
+                                <motion.div className={`reviews__field ${reviewsField ? "is-active" : ""}`}
+                                            initial={{opacity: 0, y: -20}} whileInView={{opacity: 1, y: 0}}>
+                                    <div className="reviews__select-rate">
+                                        {["1", "2", "3", "4", "5"].map((rate) => (
+                                            <button
+                                                key={rate}
+                                                className={`select-rate ${reviewsRateValue === rate ? "active" : ""}`}
+                                                value={rate}
+                                                onClick={handleReviewsSelectRate}
+                                            >
+                                                {rate}
+                                            </button>
+                                        ))}
+                                    </div>
+                                    <input type="text" className="input__control" placeholder="Your name"
+                                           value={reviewsNameValue} onChange={handleReviewsNameChange}/>
+                                    <textarea onChange={handleReviewsTextChange} value={reviewsTextValue}
+                                              className="textarea__control" placeholder="Type your review..." name=""
+                                              id="" cols="30" rows="10"></textarea>
+                                    <button className="btn btn__primary btn__review btn__icon"
+                                            onClick={handleAddReview}>
+                                        <img className="icon" src={svgSend} alt="Zara" width="25" height="25"/>
+                                    </button>
+                                </motion.div>
                                 <div className="reviews-col-2">
-                                    {reviews?.map(item => (
-                                        <ReviewBlock dataReview={item}/>
-                                    ))}
+                                    {loading ? (
+                                        // if loading === true, Show loading text :
+                                        <div style={{textAlign: "left", color: "gray" }}>
+                                            ⏳ Downloading reviews...
+                                        </div>
+                                    ) : (
+                                        // if loading === false, show reviews:
+                                        reviews.length === 0 ? (
+                                            <p>There are no any reviews here. Be first!</p>
+                                        ) : (
+                                            reviews?.map(item => (
+                                                <ReviewBlock productId={PRODUCT.id} dataReview={item}/>
+                                            ))
+                                        )
+                                    )}
+
                                 </div>
                             </div>
                             <div className="panel__footer">

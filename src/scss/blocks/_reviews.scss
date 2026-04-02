@@ -1,4 +1,5 @@
 @use "../../scss/helpers" as *;
+@use "../../scss/components/button";
 
 //reviews section
 .reviews {
@@ -47,6 +48,32 @@
 		margin-top: fluid(20, 16);
 	}
 
+}
+//reviews filed
+.reviews__field {
+	margin-bottom: rem(30);
+	display: none;
+	position: relative;
+	flex-direction: column;
+	row-gap: rem(20);
+	&.is-active {
+		display: flex;
+	}
+	.btn__review {
+		position: absolute;
+		right: rem(10);
+		bottom: rem(10);
+	}
+}
+.reviews__select-rate {
+	display: flex;
+	column-gap: rem(10);
+	.select-rate {
+		@extend .btn; @extend .btn__primary;
+		width: rem(50);
+		height: rem(50);
+		padding: rem(1);
+	}
 }
 //reviews swiper
 .reviews__swiper {

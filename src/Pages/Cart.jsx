@@ -184,7 +184,7 @@ const Cart = () => {
                                 <p className="cart__sum-param fee">
                                     Delivery Fee
                                     <span className="val">
-                                        ${delivery}
+                                        ${delivery.toFixed(2)}
 						            </span>
                                 </p>
                             </div>
