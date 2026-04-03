@@ -5,12 +5,15 @@ import SectionSell from "../sections/SectionSell.jsx";
 import BrowseBy from "../sections/BrowseBy.jsx";
 import Reviews from "../components/Reviews.jsx";
 import useFetch from '../hooks/useFetch.js';
+import {supabase} from "../supabaseClient.js";
 
 const Home = () => {
 
-    const { data: reviews, loading: reviewsLoading, error: reviewsError } = useFetch('data/reviews.json');
+    // const { data: reviews, loading: reviewsLoading, error: reviewsError } = useFetch('data/reviews.json');
     const { data: cardsNew, loading: cardsNewLoading, error: cardsNewError } = useFetch('data/products.json');
     const { data: cardsTop, loading: cardsTopLoading, error: cardsTopError } = useFetch('data/products.json');
+    const [reviews, setReviews] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     const filterTypeNew = 'new';
     const filterTypeTop = 'top';
@@ -23,6 +26,28 @@ const Home = () => {
         return product.type === filterTypeTop;
     });
 
+    // Downloading database Supabase
+    useEffect(() => {
+        fetchReviews();
+    }, []);
+
+    const fetchReviews = async () => {
+        try {
+            // .select('*') means "take all columns"
+            const { data, error } = await supabase
+                .from('reviews')
+                .select('*')
+                .order('id', { ascending: false }); // Нові зверху
+
+            if (error) throw error;
+            if (data) setReviews(data);
+        } catch (error) {
+            console.error("Помилка завантаження з Supabase:", error.message);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     return (
         <>
             <Hero/>
@@ -30,7 +55,7 @@ const Home = () => {
             <SectionSell id="new-arrivals" titleSection="NEW ARRIVALS" loading={cardsNewLoading} error={cardsNewError} data={filteredProductsNew} imgPath="images"/>
             <SectionSell id="top-selling" titleSection="TOP SELLING" loading={cardsTopLoading} error={cardsTopError} data={filteredProductsTop} imgPath="images"/>
             <BrowseBy/>
-            <Reviews dataReviews={reviews} loading={reviewsLoading} error={reviewsError}/>
+            <Reviews dataReviews={reviews} />
         </>
     );
 };
