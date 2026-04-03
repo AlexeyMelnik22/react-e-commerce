@@ -191,7 +191,14 @@ const Product = () => {
         }
     };
     const handleAddReview = async () => {
-        if (reviewsTextValue.trim() === "" && reviewsTextValue.trim() === "" && reviewsRateValue.trim() === "") return;
+        if (
+            reviewsNameValue.trim() === "" ||
+            reviewsTextValue.trim() === "" ||
+            reviewsRateValue.trim() === ""
+        ) {
+            alert("Please, fill all of these fields to leave the review.");
+            return;
+        }
         //Create review object
         const newReview = {
             id: Date.now().toString(),
