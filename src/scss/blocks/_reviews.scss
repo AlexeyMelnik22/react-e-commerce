@@ -47,7 +47,18 @@
 		font-weight: 500;
 		margin-top: fluid(20, 16);
 	}
-
+}
+.swiper-slide {
+	&:has(.review-block) {
+		.review-block {
+			&__desc {
+				display: -webkit-box;
+				-webkit-line-clamp: 3; /* Кількість рядків, які потрібно залишити */
+				-webkit-box-orient: vertical;
+				overflow: hidden;
+			}
+		}
+	}
 }
 //reviews filed
 .reviews__field {

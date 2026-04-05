@@ -37,6 +37,7 @@ const Home = () => {
             const { data, error } = await supabase
                 .from('reviews')
                 .select('*')
+                .eq('rating', 5)
                 .order('id', { ascending: false }); // Нові зверху
 
             if (error) throw error;

@@ -180,7 +180,7 @@ const Product = () => {
                 .from('reviews')
                 .select('*')
                 .eq('product_id', String(PRODUCT.id)) //filter id
-                .order('id', { ascending: false }); // Нові зверху
+                .order('id', { ascending: false }); //
 
             if (error) throw error;
             if (data) setReviews(data);
