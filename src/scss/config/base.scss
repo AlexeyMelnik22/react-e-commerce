@@ -119,32 +119,11 @@ a {
 	text-decoration: none;
 }
 
- // Стили отзывчивых картинок (IBG)
- .ibg {
- 	position: relative;
-
- 	img {
- 		position: absolute;
- 		inset-block-start: 0;
- 		inset-inline-start: 0;
- 		object-fit: cover;
- 		block-size: 100%;
- 		inline-size: 100%;
- 	}
-
- 	&_contain {
- 		img {
- 			object-fit: contain;
- 		}
- 	}
- }
-
- // Оболочка
+ // wrapper
  .wrapper {
  	display: flex;
  	min-block-size: 100%;
 
- 	// Поменять на clip - если используется в проекте position: sticky
  	overflow: hidden;
  	flex-direction: column;
  }
@@ -167,3 +146,15 @@ a {
  		padding-block-start: rem(40);
  	}
  }
+
+ //overlay
+.overlay {
+	position: fixed;
+	inset: 0;
+	background: rgb(0,0,0,0.5);
+	z-index: 995;
+	display: none;
+	&.is-active {
+		display: block;
+	}
+}

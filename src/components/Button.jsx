@@ -5,9 +5,10 @@ const Button = (props) => {
         className = "",
         type = "button",
         children,
+        onClick
     } = props
     return (
-        <button type={type} className={`btn ${className}`}>
+        <button type={type} className={`btn ${className}`} onClick={onClick}>
             {children}
         </button>
     );
