@@ -6,9 +6,9 @@ const BrowseBy = () => {
             <div className="container">
                 <div className="browse-by__inner">
                     <div className="browse-by__header">
-                        <h3 className="browse-by__headline h3">
+                        <h2 className="browse-by__headline h2">
                             BROWSE BY dress STYLE
-                        </h3>
+                        </h2>
                     </div>
                     <div className="browse-by__body">
                         <div className="browse-by__cards">

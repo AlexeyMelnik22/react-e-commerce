@@ -10,10 +10,10 @@
 		text-align: center;
 	}
 	&__headline {
-		@include mobile-s {
-			text-transform: uppercase;
-			font-weight: 900;
-		}
+		//@include mobile-s {
+		//	text-transform: uppercase;
+		//	font-weight: 900;
+		//}
 	}
 	&__body {
 		margin-top: fluid(64, 28);

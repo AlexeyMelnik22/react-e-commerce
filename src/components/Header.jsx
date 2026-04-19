@@ -5,6 +5,8 @@ import useFetch from "../hooks/useFetch.js";
 import getImageUrl from "../hooks/imageUtil.jsx";
 import { useCart } from './context/CartContext.jsx';
 import { motion } from "motion/react"
+import Dropdown from "./Dropdown/Dropdown.jsx"
+import Button from "../components/Button.jsx";
 
 const Header = () => {
 
@@ -27,6 +29,20 @@ const Header = () => {
     const searchBlockRef = useRef(null);
 
     const location = useLocation();
+
+    const [currentUser, setCurrentUser] = useState(null);
+    const [login, setLogin] = useState('');
+    const [password, setPassword] = useState('');
+    // State for switch form mode
+    const [isLoginMode, setIsLoginMode] = useState(true);
+
+    // Check if active session while first render
+    useEffect(() => {
+        const loggedUser = localStorage.getItem('activeUser');
+        if (loggedUser) {
+            setCurrentUser(JSON.parse(loggedUser));
+        }
+    }, []);
 
     //when change route - close searchBlock
     useEffect(() => {
@@ -52,24 +68,20 @@ const Header = () => {
     }, [setSearch]);
 
     useEffect(() => {
-        // Функція обробник кліку
         const handleClickOutside = (event) => {
-            // Якщо елемент існує в DOM і клік (event.target) відбувся НЕ всередині нього
             if (searchRef.current && !searchRef.current.contains(event.target)) {
-                setOpenSearch(""); // Знімаємо клас is-active
+                setOpenSearch("");
             }
         };
-
-        // Додаємо слухача подій на весь документ, якщо пошук відкритий
         if (openSearch) {
             document.addEventListener('mousedown', handleClickOutside);
         }
 
-        //Функція очищення , щоб уникнути витоків пам'яті
+        //Cleanup function to avoid memory leaks
         return () => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
-    }, [openSearch]); // Хук спрацьовує при зміні стану isActive
+    }, [openSearch]); // Hook works while change state isActive
     const onOpenMenu = ()=> {
         setMenu("is-active")
     }
@@ -79,6 +91,61 @@ const Header = () => {
     const onOpenSearch = ()=> {
         setOpenSearch("is-active")
     }
+    // (LOGIN)
+    const handleLogin = () => {
+        const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+
+        // Шукаємо користувача з таким логіном та паролем
+        const user = existingUsers.find(
+            (u) => u.login === login && u.password === password
+        );
+
+        if (user) {
+            localStorage.setItem('activeUser', JSON.stringify(user));
+            setCurrentUser(user);
+            setLogin('');
+            setPassword('');
+            alert(`Welcome, ${user.login}!`);
+
+        } else {
+            alert("Incorrect login or password");
+        }
+    };
+    // (REG)
+    const handleRegister = () => {
+        if (!login || !password) {
+            alert("Please, fill the all fields");
+            return;
+        }
+
+        // 1. Get existing users from LocalStorage (or an empty array)
+        const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+
+        // 2. Checking if such a login already exists
+        const userExists = existingUsers.some(user => user.login === login);
+        if (userExists) {
+            alert("This login is already taken");
+            return;
+        }
+
+        // 3.Add new user
+        const newUser = { login, password };
+        const updatedUsers = [...existingUsers, newUser];
+
+        // 4. Saving back to LocalStorage
+        localStorage.setItem('users', JSON.stringify(updatedUsers));
+
+        localStorage.setItem('activeUser', JSON.stringify(newUser));
+        setCurrentUser(newUser);
+
+        alert("Registration successful!");
+        setLogin('');
+        setPassword('');
+    };
+    const handleLogout = () => {
+        localStorage.removeItem('activeUser');
+        setCurrentUser(null);
+    };
 
     return (
         <>
@@ -199,7 +266,7 @@ const Header = () => {
                             </button>
                         </nav>
                         <div className={`header__search ${openSearch}`} ref={searchRef} >
-                            <label className="input__search input__field">
+                            <label className="input__search input__content input__field">
                                 <button className="input__icon" type="submit" title="Search">
                                     <svg
                                         className="icon"
@@ -274,15 +341,80 @@ const Header = () => {
                                     {cartCount === 0 ? "" : cartCount }
                                 </span>
                             </Link>
-                            <button
-                                type="button"
-                                title=""
-                                className="header__profile header__control"
-                            >
-                                <svg className="icon" width={24} height={24}>
-                                    <use href={`${svgSprite}#user`}/>
-                                </svg>
-                            </button>
+                            {currentUser ? (
+                                <Dropdown trigger={
+                                    <button
+                                        type="button"
+                                        title=""
+                                        className="header__profile header__control"
+                                    >
+                                        <svg className="icon" width={24} height={24}>
+                                            <use href={`${svgSprite}#user`}/>
+                                        </svg>
+                                        <span>{currentUser.login}</span>
+                                    </button>
+                                }>
+                                    <Button onClick={handleLogout}>Log Out</Button>
+                                </Dropdown>
+                            ) : (
+                                <Dropdown trigger={
+                                    <button
+                                        type="button"
+                                        title=""
+                                        className="header__profile header__control"
+                                    >
+                                        <svg className="icon" width={24} height={24}>
+                                            <use href={`${svgSprite}#user`}/>
+                                        </svg>
+                                    </button>
+                                }>
+                                    <div className="auth-form">
+                                        <h5 className="h5 auth-form__title">{isLoginMode ? 'Sign In' : 'Sign Up'}</h5>
+                                        <div className="input__field">
+                                            <input
+                                                type="text"
+                                                placeholder="Login"
+                                                value={login}
+                                                className="input__control input-square"
+                                                onChange={(e) => setLogin(e.target.value)}
+                                            />
+                                        </div>
+                                        <div className="input__field">
+                                            <input
+                                                type="password"
+                                                placeholder="Password"
+                                                value={password}
+                                                className="input__control input-square"
+                                                onChange={(e) => setPassword(e.target.value)}
+                                            />
+                                        </div>
+                                        {isLoginMode ? (
+                                            <>
+                                                <Button className="btn btn__primary btn__max" onClick={handleLogin}>Увійти</Button>
+                                                <p style={{fontSize: '12px'}}>
+                                                    Don't have an account?
+                                                    <span
+                                                        onClick={() => setIsLoginMode(false)}
+                                                        style={{ color: '#063AF5', cursor: 'pointer', marginLeft: '5px' }}
+                                                    >
+                                        Sign Up
+                                    </span>
+                                                </p>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <Button className="btn btn__primary btn__max" onClick={handleRegister}>Створити акаунт</Button>
+                                                <p style={{ fontSize: '12px' }}>
+                                                    Already have an account?
+                                                    <span
+                                                        onClick={() => setIsLoginMode(true)}
+                                                        style={{ color: '#063AF5', cursor: 'pointer', marginLeft: '5px' }}>Sign In</span>
+                                                </p>
+                                            </>
+                                        )}
+                                    </div>
+                                </Dropdown>
+                            )}
                         </div>
                     </div>
                 </div>

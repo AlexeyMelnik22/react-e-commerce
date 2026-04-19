@@ -39,11 +39,16 @@ input::-webkit-inner-spin-button {
 		position: absolute;
 		left: rem(16);
 	}
+	&.input__content {
+		.input__control {
+			padding: rem(14) rem(18) rem(14) rem(52);
+		}
+	}
 }
 .input__control, .textarea__control {
 	width: 100%;
 	height: fluid(48, 42);
-	padding: rem(14) rem(18) rem(14) rem(52);
+	padding: rem(14) rem(18) rem(14) rem(18);
 	border-radius: rem(50);
 	outline: none;
 	border: none;
@@ -57,9 +62,19 @@ input::-webkit-inner-spin-button {
 		-webkit-box-shadow: 0px 0px 15px -5px rgba(0,0,0,0.39);
 		box-shadow: 0px 0px 15px -5px rgba(0,0,0,0.39);
 	}
+	&.input-square {
+		border-radius: rem(10);
+	}
 }
 .textarea__control {
 	height: rem(200);
 	resize: none;
 	border-radius: rem(25);
+}
+
+.auth-form {
+	display: flex;
+	flex-direction: column;
+	gap: rem(10);
+	min-width: rem(250);
 }

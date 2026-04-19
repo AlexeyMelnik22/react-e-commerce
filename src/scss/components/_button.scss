@@ -140,6 +140,7 @@
 		right: rem(20);
 		border: rem(1) solid var(--color-dark);
 		background-color: var(--color-light);
+		border-radius: rem(50);
 		@include tablet-above {
 			display: none;
 		}

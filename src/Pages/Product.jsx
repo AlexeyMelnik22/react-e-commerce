@@ -272,13 +272,13 @@ const Product = () => {
                         </div>
                         <div className="product__price">
                             <div className="price">
-                                {`${PRODUCT.price ? "$" + PRODUCT.price : ""}`}
+                                {`${PRODUCT.price ? "$" + PRODUCT.price : "-"}`}
                             </div>
                             <div className="price-old">
                                 {`${PRODUCT.oldPrice ? "$" + PRODUCT.oldPrice : ""}`}
                             </div>
                             <div className="discount">
-                                {`${PRODUCT.discount ? "-" + PRODUCT.discount + "%" : ""} `}
+                                {`${PRODUCT.discount ? "-" + PRODUCT.discount + "%" : ""}`}
                             </div>
                         </div>
                         <div className="product__desc">

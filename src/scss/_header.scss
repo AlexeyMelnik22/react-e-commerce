@@ -147,6 +147,9 @@
 	&__control {
 		transition: opacity var(--transition-duration);
 		position: relative;
+		display: flex;
+		align-items: center;
+		column-gap: rem(5);
 		&:hover, &:focus {
 			opacity: .6;
 		}

@@ -11,7 +11,7 @@ const Footer = () => {
                             STAY UPTO DATE ABOUT OUR LATEST OFFERS
                         </h3>
                         <div className="newsletter__actions">
-                            <label className="input__field">
+                            <label className="input__field input__content">
                                 <button className="input__icon" type="submit" title="Search">
                                     <svg
                                         className="icon"
